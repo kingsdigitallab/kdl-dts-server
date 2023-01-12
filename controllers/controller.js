@@ -199,7 +199,7 @@ async function getMetadataFromTEIFile(filePath) {
   let doc = await SaxonJS.getResource({ text: content, type: "xml" });
 
   let ret = {
-    title: "//teiHeader/fileDesc/titleStmt/title/text()",
+    title: "//teiHeader/fileDesc/titleStmt/title[1]/text()",
   };
 
   for (const [k, v] of Object.entries(ret)) {
