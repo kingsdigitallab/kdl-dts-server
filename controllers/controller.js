@@ -171,7 +171,7 @@ async function findTEIFiles(collectionPath, ret) {
   const path = require("path");
   const fs = require("fs");
 
-  for (let file of fs.readdirSync(directory)) {
+  for (let file of fs.readdirSync(directory).sort()) {
     let filePath = path.resolve(directory, file);
     if (fs.lstatSync(filePath).isDirectory()) {
       await findTEIFiles(filePath, ret);
