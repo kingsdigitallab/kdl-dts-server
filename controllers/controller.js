@@ -6,7 +6,7 @@ const fs = require("fs");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
 const settings = require("../settings.js");
 const XPath = require("xpath");
-const collectionRoot = settings.localPath;
+const collectionRoot = settings.source;
 // tei namespace
 const TEINS = "http://www.tei-c.org/ns/1.0";
 
