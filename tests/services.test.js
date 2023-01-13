@@ -29,4 +29,14 @@ describe('Unit testing the / route', function() {
       })
   });
 
+  it('should have a collection with one member with an @id', function() {
+    return request(app)
+      .get(collectionUrl)
+      .then(function(response) {
+        assert.equal(response.status, 200)
+        firstCollectionMember = response.body.member[0]
+        assert.ok(typeof firstCollectionMember['@id'] === 'string')
+      })
+  });
+
 });
