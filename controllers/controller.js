@@ -7,6 +7,8 @@ const DOMParser = require("@xmldom/xmldom").DOMParser;
 const settings = require("../settings.js");
 const XPath = require("xpath");
 const collectionRoot = settings.source;
+const Corpus = require("./corpus")
+const corpus = new Corpus(settings.source)
 // tei namespace
 const TEINS = "http://www.tei-c.org/ns/1.0";
 
@@ -18,6 +20,17 @@ let idCollection = `${idPrefix}${settings.rootCollection.slug}/`;
 let cache = {
   lastRead: {},
 };
+
+// TODO: server starts by creating a corpus index
+// Use that for retrieval based on doc ID
+
+// FOR DYNAMIC:
+//  prefix/DOC (don't use collection)
+//  DOC = slug(filename)
+//  Warning on duplicates
+// FOR STATIC:
+//  ID = url of the doc (or the doc as a collection?)
+//  https://github.com/kingsdigitallab/alice-thornton/tree/main/dts/documents/book-one
 
 var controllers = {
   root: (req, res) => {
@@ -35,6 +48,10 @@ var controllers = {
     res.json(ret);
   },
   collections: async (req, res) => {
+    let ret = corpus.getItemAndSubItems()
+    return res.json(ret)
+  },
+  collections2: async (req, res) => {
     // id, page, nav
     // let q = req.query
     let members = [
@@ -161,55 +178,55 @@ var controllers = {
 
 // TODO: convert those functions into a class
 
-async function findTEIFiles(collectionPath, ret) {
-  // TODO: handle collections & sub-collections
-  if (typeof ret === "undefined") {
-    ret = [];
-  }
+// async function findTEIFiles(collectionPath, ret) {
+//   // TODO: handle collections & sub-collections
+//   if (typeof ret === "undefined") {
+//     ret = [];
+//   }
 
-  const directory = collectionPath;
-  const path = require("path");
-  const fs = require("fs");
+//   const directory = collectionPath;
+//   const path = require("path");
+//   const fs = require("fs");
 
-  for (let file of fs.readdirSync(directory).sort()) {
-    let filePath = path.resolve(directory, file);
-    if (fs.lstatSync(filePath).isDirectory()) {
-      await findTEIFiles(filePath, ret);
-    } else {
-      if (file.endsWith(".xml")) {
-        let handle = file.replace(/\.[^.]*$/, "");
-        let documentId = `${idCollection}${handle}/`;
-        let teiMeta = await getMetadataFromTEIFile(filePath);
-        ret.push({
-          "@id": documentId,
-          title: teiMeta.title,
-        });
-      }
-    }
-  }
+//   for (let file of fs.readdirSync(directory).sort()) {
+//     let filePath = path.resolve(directory, file);
+//     if (fs.lstatSync(filePath).isDirectory()) {
+//       await findTEIFiles(filePath, ret);
+//     } else {
+//       if (file.endsWith(".xml")) {
+//         let handle = file.replace(/\.[^.]*$/, "");
+//         let documentId = `${idCollection}${handle}/`;
+//         let teiMeta = await getMetadataFromTEIFile(filePath);
+//         ret.push({
+//           "@id": documentId,
+//           title: teiMeta.title,
+//         });
+//       }
+//     }
+//   }
 
-  return ret;
-}
+//   return ret;
+// }
 
-async function getMetadataFromTEIFile(filePath) {
-  let content = readFile(filePath);
-  // optimisation: we extract the TEI header (so less xml to parse)
-  let m = content.match(/^.*<\/teiHeader>/s);
-  content = `${m[0]}</TEI>`;
-  let doc = await SaxonJS.getResource({ text: content, type: "xml" });
+// async function getMetadataFromTEIFile(filePath) {
+//   let content = readFile(filePath);
+//   // optimisation: we extract the TEI header (so less xml to parse)
+//   let m = content.match(/^.*<\/teiHeader>/s);
+//   content = `${m[0]}</TEI>`;
+//   let doc = await SaxonJS.getResource({ text: content, type: "xml" });
 
-  let ret = {
-    title: "//teiHeader/fileDesc/titleStmt/title[1]/text()",
-  };
+//   let ret = {
+//     title: "//teiHeader/fileDesc/titleStmt/title[1]/text()",
+//   };
 
-  for (const [k, v] of Object.entries(ret)) {
-    ret[k] = SaxonJS.XPath.evaluate(v, doc, {
-      xpathDefaultNamespace: "http://www.tei-c.org/ns/1.0",
-    }).data;
-  }
+//   for (const [k, v] of Object.entries(ret)) {
+//     ret[k] = SaxonJS.XPath.evaluate(v, doc, {
+//       xpathDefaultNamespace: "http://www.tei-c.org/ns/1.0",
+//     }).data;
+//   }
 
-  return ret;
-}
+//   return ret;
+// }
 
 function getHTMLfromTEI(tei) {
   let ret = "";
@@ -271,10 +288,14 @@ function readFile(filePath) {
 }
 
 function getTEIFilePathFromDocumentId(documentId) {
-  let parts = documentId.split("/");
-  // todo: use doc index instead and check whole pid
-  let fileName = parts[parts.length - 2];
-  return `${collectionRoot}/${fileName}/${fileName}.xml`;
+  if (1) {
+    return corpus.getItemSource(documentId)
+  } else {
+    let parts = documentId.split("/");
+    // todo: use doc index instead and check whole pid
+    let fileName = parts[parts.length - 2];
+    return `${collectionRoot}/${fileName}/${fileName}.xml`;
+  }
 }
 
 function getXMLFromPageNumber(documentId, ref) {
