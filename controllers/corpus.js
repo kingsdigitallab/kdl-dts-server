@@ -25,11 +25,22 @@ C support for sub-collections (using a .collection.json file under each collecti
  */
 class Corpus {
   constructor(source) {
+    this.source = source
+    this.setReader(source)
+
     this.cacheDir = '.corpus'
     if (!fs.existsSync(this.cacheDir)) {
       fs.mkdirSync(this.cacheDir)
     }
+  }
+
+  setSource(source) {
     this.source = source
+    this.setReader()
+  }
+
+  setReader() {
+    this.reader = CorpusReader.new(this.source)
   }
 
   async buildAndSaveTree(reload=false) {
