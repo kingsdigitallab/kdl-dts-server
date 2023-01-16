@@ -5,24 +5,36 @@ const fs = require("fs");
 
 // npx mocha -b -w ./tests/corpus.test.js
 
+
+/*
+TODO:
+M move file caching from controller to here
+M add missing DTS fields in the getItem responses
+M improve the IDs (in controller?)
+M move file reading from controller to Corpus class
+M create extension that can read corpus from Github folders
+S optimise for large collections on github (with caching, lazy loading & pagination)
+S document limitations (e.g. unique file name or @xml:id)
+C support for sub-collections (using a .collection.json file under each collection folder) 
+*/
+
 /**
  * Interface to a corpus of TEI files on disk or online.
  * Reads the files and build a flatten representation of the document tree.
  * Cache the tree on file system for subsequent use.
  */
 class Corpus {
-  constructor(source, reload=false) {
+  constructor(source) {
     this.cacheDir = '.corpus'
     if (!fs.existsSync(this.cacheDir)) {
       fs.mkdirSync(this.cacheDir)
     }
     this.source = source
-    this.buildAndSaveTree(reload)
   }
 
-  buildAndSaveTree(reload=false) {
+  async buildAndSaveTree(reload=false) {
     if (reload || !this.readTree()) {
-      this.buildTree()
+      await this.buildTree()
       this.saveTree()
     }
   }
@@ -39,6 +51,7 @@ class Corpus {
   }
 
   saveTree() {
+    console.log(this.getTreePath())
     fs.writeFileSync(
       this.getTreePath(), 
       JSON.stringify(this.tree, null, 2), 
@@ -51,7 +64,11 @@ class Corpus {
   }
 
   getSourceSlug() {
-    return this.slugify(path.resolve(this.source))
+    return this.slugify(this.getAbsoluteSource())
+  }
+
+  getAbsoluteSource() {
+    return path.resolve(this.source)
   }
 
   slugify(str) {
@@ -65,61 +82,60 @@ class Corpus {
     }
   }
 
-  getItem(id=null) {
-    let ret = null
-    if (!id) {
-      id = "ROOT"
-    }
-    ret = {...this.tree[id]}
+  getItem(id="ROOT") {
+    return this._cleanItem(this.tree[id])
+  }
+
+  _cleanItem(item) {
+    let ret = {...item}
+    ret.totalParents = item.tree.parent ? 1 : 0;
     delete ret.tree
     return ret
   }
 
-  getItemSource(id=null) {
+  getItemSource(id="ROOT") {
     let ret = null
-    if (!id) {
-      id = "ROOT"
-    }
     return this.tree[id].tree.source
   }
 
-  getSubItems(id=null) {
+  getSubItems(id="ROOT") {
     let ret = []
-    if (!id) {
-      id = "ROOT"
-    }
     for (let item of Object.values(this.tree)) {
       if (item.tree.parent === id) {
-        let copy = {...item}
-        delete copy.tree
-        ret.push(copy)
+        ret.push(this._cleanItem(item))
       }
     }
     return ret
   }
 
-  buildTree(collectionPath) {
+  resetTree() {
+    this.tree = {
+      "ROOT": {
+        "@id": "ROOT",
+        "@type": "Collection",
+        "title": "ROOT Collection",
+        "tree": {
+          "source": this.getAbsoluteSource(),
+          "parent": null,
+          "updated": new Date()
+        }
+      }
+    }
+
+    return this.tree
+  }
+
+  async buildTree(collectionPath) {
     // TODO: handle collections & sub-collections
     if (typeof collectionPath === "undefined") {
       collectionPath = this.source
-      this.tree = {
-        "ROOT": {
-          "@id": "ROOT",
-          "@type": "Collection",
-          "title": "ROOT Collection",
-          "tree": {
-            "source": path.resolve(collectionPath),
-            "parent": null,
-            "updated": new Date()
-          }
-        }
-      }
+      this.resetTree()
     }
 
     const directory = collectionPath;
   
     for (let filename of fs.readdirSync(directory).sort()) {
-      let filePath = path.resolve(directory, filename);
+      let filePath = this.getAbsoluteSource();
       if (fs.lstatSync(filePath).isDirectory()) {
         this.buildTree(filePath);
       } else {

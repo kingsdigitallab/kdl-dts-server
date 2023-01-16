@@ -1,0 +1,190 @@
+{
+  "sha": "c7c11f34a0d92958c5ed0aed9c94724c37ad52f4",
+  "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/c7c11f34a0d92958c5ed0aed9c94724c37ad52f4",
+  "tree": [
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fddb4a930920d106e050cf16d5259366a1d6eff0",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/fddb4a930920d106e050cf16d5259366a1d6eff0"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "359fb38bf7a95af92661d70d6576b452ee616885",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/359fb38bf7a95af92661d70d6576b452ee616885"
+    },
+    {
+      "path": ".github/workflows/validate-tei.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6ad896455a77780a40829841e7474fabef754a6",
+      "size": 1187,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/b6ad896455a77780a40829841e7474fabef754a6"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7426b5e4391c4cd7fbdeff5454b7af7c5f9fdc5",
+      "size": 17,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/b7426b5e4391c4cd7fbdeff5454b7af7c5f9fdc5"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65d4eebee9c5180df4d1e864104ce9ce0d5c4301",
+      "size": 594,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/65d4eebee9c5180df4d1e864104ce9ce0d5c4301"
+    },
+    {
+      "path": "documentation",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b949f736d6f246d1e659e8ef71c6f7b5eecc0149",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/b949f736d6f246d1e659e8ef71c6f7b5eecc0149"
+    },
+    {
+      "path": "documentation/atb_books_pages_img_v221017.xlsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8b8e32a3c04646094e7e93f8f33028a766cb3a8",
+      "size": 34468,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f8b8e32a3c04646094e7e93f8f33028a766cb3a8"
+    },
+    {
+      "path": "documentation/atb_xml_doc_v221024.xlsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53b5c776f4b8e5b2f6aa0d50cef22924ae2b2849",
+      "size": 19665,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/53b5c776f4b8e5b2f6aa0d50cef22924ae2b2849"
+    },
+    {
+      "path": "documentation/encoding_reference.odt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8a3256925f61d32d27235d2ace7811b26a85055",
+      "size": 20128,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/e8a3256925f61d32d27235d2ace7811b26a85055"
+    },
+    {
+      "path": "entities",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "83a9c4e86f9840109b715b6dc8fbb6e281635202",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/83a9c4e86f9840109b715b6dc8fbb6e281635202"
+    },
+    {
+      "path": "entities/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7376a2bd5cc1273affcd412d43e1a058bf288a79",
+      "size": 27,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/7376a2bd5cc1273affcd412d43e1a058bf288a79"
+    },
+    {
+      "path": "entities/people.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed0b6d47f70b5c465a34dcf525de7099a1423b01",
+      "size": 182195,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/ed0b6d47f70b5c465a34dcf525de7099a1423b01"
+    },
+    {
+      "path": "entities/places.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00768abdd5b21a6a36318c1967c9880a01c7a79b",
+      "size": 43434,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/00768abdd5b21a6a36318c1967c9880a01c7a79b"
+    },
+    {
+      "path": "texts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0d18637a10d9f1b037796bea0665847ec245de8d",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/0d18637a10d9f1b037796bea0665847ec245de8d"
+    },
+    {
+      "path": "texts/00_book_of_remembrances",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "090cb209c9e75d49dbacc56f704e1798b38a3c96",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/090cb209c9e75d49dbacc56f704e1798b38a3c96"
+    },
+    {
+      "path": "texts/00_book_of_remembrances/book_of_remembrances.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "275dae4e9ddc47b2418d9ce9bc1819d7950b83f6",
+      "size": 393409,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/275dae4e9ddc47b2418d9ce9bc1819d7950b83f6"
+    },
+    {
+      "path": "texts/00_book_of_remembrances/book_of_remembrances_vard.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d68f878b041a517f7ba9602c4075ffd7351654d1",
+      "size": 483931,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/d68f878b041a517f7ba9602c4075ffd7351654d1"
+    },
+    {
+      "path": "texts/01_book_one",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bbfebb0f3923521ab618f0c5fcf74a4bddcb3fde",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/bbfebb0f3923521ab618f0c5fcf74a4bddcb3fde"
+    },
+    {
+      "path": "texts/01_book_one/book_one.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f08ad24f1d1e871eddac7ad43430e3749f5adcff",
+      "size": 1119718,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f08ad24f1d1e871eddac7ad43430e3749f5adcff"
+    },
+    {
+      "path": "texts/02_book_two",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "adb1cb9f6acf59fbcc2ee42964aa634e43f89d39",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/adb1cb9f6acf59fbcc2ee42964aa634e43f89d39"
+    },
+    {
+      "path": "texts/02_book_two/book_two.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc24ba5a54cd54a09e49ee9519cee1d530a56de1",
+      "size": 722591,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/bc24ba5a54cd54a09e49ee9519cee1d530a56de1"
+    },
+    {
+      "path": "texts/03_book_three",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "af5ac474cb5a48272d37fd950b1e27e38a8dde45",
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/af5ac474cb5a48272d37fd950b1e27e38a8dde45"
+    },
+    {
+      "path": "texts/03_book_three/book_three.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f00b5ba676182d95019dd4925a3ca4418cbe1cbd",
+      "size": 967088,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f00b5ba676182d95019dd4925a3ca4418cbe1cbd"
+    },
+    {
+      "path": "texts/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1bfae97e1602a3b65db0bdc5bdcdb3b90d006a39",
+      "size": 31,
+      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/1bfae97e1602a3b65db0bdc5bdcdb3b90d006a39"
+    }
+  ],
+  "truncated": false
+}
