@@ -9,6 +9,7 @@ const XPath = require("xpath");
 const collectionRoot = settings.source;
 const Corpus = require("./corpus")
 const corpus = new Corpus(settings.source)
+corpus.buildAndSaveTree()
 // tei namespace
 const TEINS = "http://www.tei-c.org/ns/1.0";
 
@@ -23,6 +24,7 @@ let cache = {
 
 // TODO: server starts by creating a corpus index
 // Use that for retrieval based on doc ID
+// TODO: support for dts:passage & passage (also in client)
 
 // FOR DYNAMIC:
 //  prefix/DOC (don't use collection)
@@ -49,6 +51,29 @@ var controllers = {
   },
   collections: async (req, res) => {
     let ret = corpus.getItemAndSubItems()
+    /*
+    TODO:
+      "@context": {
+        "@vocab": "https://www.w3.org/ns/hydra/core#",
+        dc: "http://purl.org/dc/terms/",
+        dts: "https://w3id.org/dts/api#",
+      },
+    */
+    // enrich members
+    for (let member of ret.member) {
+      let mid = member["@id"];
+      Object.assign(member, {
+        "dts:references": `${settings.services.navigation}?id=${mid}`,
+        "dts:passage": `${settings.services.documents}?id=${mid}`,
+        "dts:maxCiteDepth": 1,
+        "dts:citeStructure": [
+          // TODO: chapters
+          {
+            "dts:citeType": "page",
+          },
+        ],
+      });
+    }
     return res.json(ret)
   },
   collections2: async (req, res) => {

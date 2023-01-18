@@ -1,14 +1,15 @@
 const assert = require('assert');
 const expect = require('chai').expect
-const Corpus = require('../controllers/corpus-github')
+const Corpus = require('../controllers/corpus')
 
 /*
 TODO:
 
 */
 
-const source = "tests/corpus"
+// const source = "tests/corpus"
 // const source = "https://github.com/kingsdigitallab/alice-thornton/tree/edition/texts"
+const source = "https://github.com/kingsdigitallab/kdl-dts-server/tree/main/tests/corpus"
 // https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/edition?recursive=1
 // 
 // https://api.github.com/repos/TU-plogan/kp-editions/git/trees/main?recursive=1
@@ -24,7 +25,7 @@ describe('Unit testing Corpus class', function() {
   });
 
   it('return a root collection', async function() {
-    await corpus.buildAndSaveTree(true)
+    await corpus.buildAndSaveTree()
     root = corpus.getItem()
     assert.ok(root)
     assert.ok(root.totalParents === 0)
@@ -39,6 +40,13 @@ describe('Unit testing Corpus class', function() {
     let item = corpus.getItemAndSubItems()
     console.log(item)
     assert.equal(item.member.length, 2)
+  });
+
+  it('return the content of the first member under root collection', function() {
+    let item = corpus.getItemAndSubItems()
+    let content = corpus.readItemContent(item.member[0]["@id"])
+    assert.ok(content.length > 10)
+    assert.ok(content.match(/<\/teiHeader>/))
   });
 
 });

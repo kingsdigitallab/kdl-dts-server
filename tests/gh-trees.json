@@ -1,189 +1,214 @@
 {
-  "sha": "c7c11f34a0d92958c5ed0aed9c94724c37ad52f4",
-  "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/c7c11f34a0d92958c5ed0aed9c94724c37ad52f4",
+  "sha": "080a0a3aece12a0115b3a6fb596da8543c4fe3db",
+  "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/080a0a3aece12a0115b3a6fb596da8543c4fe3db",
   "tree": [
-    {
-      "path": ".github",
-      "mode": "040000",
-      "type": "tree",
-      "sha": "fddb4a930920d106e050cf16d5259366a1d6eff0",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/fddb4a930920d106e050cf16d5259366a1d6eff0"
-    },
-    {
-      "path": ".github/workflows",
-      "mode": "040000",
-      "type": "tree",
-      "sha": "359fb38bf7a95af92661d70d6576b452ee616885",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/359fb38bf7a95af92661d70d6576b452ee616885"
-    },
-    {
-      "path": ".github/workflows/validate-tei.yml",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "b6ad896455a77780a40829841e7474fabef754a6",
-      "size": 1187,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/b6ad896455a77780a40829841e7474fabef754a6"
-    },
     {
       "path": ".gitignore",
       "mode": "100644",
       "type": "blob",
-      "sha": "b7426b5e4391c4cd7fbdeff5454b7af7c5f9fdc5",
-      "size": 17,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/b7426b5e4391c4cd7fbdeff5454b7af7c5f9fdc5"
+      "sha": "cdf749ef644cebbe6f5b3d5a2675e63f8b4e4915",
+      "size": 2405,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/cdf749ef644cebbe6f5b3d5a2675e63f8b4e4915"
     },
     {
       "path": "README.md",
       "mode": "100644",
       "type": "blob",
-      "sha": "65d4eebee9c5180df4d1e864104ce9ce0d5c4301",
-      "size": 594,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/65d4eebee9c5180df4d1e864104ce9ce0d5c4301"
+      "sha": "3e890570d02d2aa7ff91846193a7311f100f602f",
+      "size": 741,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/3e890570d02d2aa7ff91846193a7311f100f602f"
     },
     {
-      "path": "documentation",
+      "path": "api_routes",
       "mode": "040000",
       "type": "tree",
-      "sha": "b949f736d6f246d1e659e8ef71c6f7b5eecc0149",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/b949f736d6f246d1e659e8ef71c6f7b5eecc0149"
+      "sha": "d8e1da19c8c8b6aefe13130509a086775fad545b",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/d8e1da19c8c8b6aefe13130509a086775fad545b"
     },
     {
-      "path": "documentation/atb_books_pages_img_v221017.xlsx",
+      "path": "api_routes/routes.js",
       "mode": "100644",
       "type": "blob",
-      "sha": "f8b8e32a3c04646094e7e93f8f33028a766cb3a8",
-      "size": 34468,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f8b8e32a3c04646094e7e93f8f33028a766cb3a8"
+      "sha": "85848542b3b7c7cc0ddc02ac6ea9d630defe96ee",
+      "size": 264,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/85848542b3b7c7cc0ddc02ac6ea9d630defe96ee"
     },
     {
-      "path": "documentation/atb_xml_doc_v221024.xlsx",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "53b5c776f4b8e5b2f6aa0d50cef22924ae2b2849",
-      "size": 19665,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/53b5c776f4b8e5b2f6aa0d50cef22924ae2b2849"
-    },
-    {
-      "path": "documentation/encoding_reference.odt",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "e8a3256925f61d32d27235d2ace7811b26a85055",
-      "size": 20128,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/e8a3256925f61d32d27235d2ace7811b26a85055"
-    },
-    {
-      "path": "entities",
+      "path": "bin",
       "mode": "040000",
       "type": "tree",
-      "sha": "83a9c4e86f9840109b715b6dc8fbb6e281635202",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/83a9c4e86f9840109b715b6dc8fbb6e281635202"
+      "sha": "e9bed0bf041cf407aa60f15db22f8321599c86e6",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/e9bed0bf041cf407aa60f15db22f8321599c86e6"
     },
     {
-      "path": "entities/README.md",
-      "mode": "100644",
+      "path": "bin/server.js",
+      "mode": "100755",
       "type": "blob",
-      "sha": "7376a2bd5cc1273affcd412d43e1a058bf288a79",
-      "size": 27,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/7376a2bd5cc1273affcd412d43e1a058bf288a79"
+      "sha": "5b63d6f8bc2cc3d1c8d9861baa80435da7efadaa",
+      "size": 186,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/5b63d6f8bc2cc3d1c8d9861baa80435da7efadaa"
     },
     {
-      "path": "entities/people.xml",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "ed0b6d47f70b5c465a34dcf525de7099a1423b01",
-      "size": 182195,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/ed0b6d47f70b5c465a34dcf525de7099a1423b01"
-    },
-    {
-      "path": "entities/places.xml",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "00768abdd5b21a6a36318c1967c9880a01c7a79b",
-      "size": 43434,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/00768abdd5b21a6a36318c1967c9880a01c7a79b"
-    },
-    {
-      "path": "texts",
+      "path": "controllers",
       "mode": "040000",
       "type": "tree",
-      "sha": "0d18637a10d9f1b037796bea0665847ec245de8d",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/0d18637a10d9f1b037796bea0665847ec245de8d"
+      "sha": "e72cb8744efcfdd37274d6674f669b7b6d544089",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/e72cb8744efcfdd37274d6674f669b7b6d544089"
     },
     {
-      "path": "texts/00_book_of_remembrances",
+      "path": "controllers/controller.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84bbef1cec17f06a9467c18ed50fde87dc9f88f0",
+      "size": 13233,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/84bbef1cec17f06a9467c18ed50fde87dc9f88f0"
+    },
+    {
+      "path": "controllers/corpus-github.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03323fd33a7b9145cf2b45f8b682bdac6b61495b",
+      "size": 2377,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/03323fd33a7b9145cf2b45f8b682bdac6b61495b"
+    },
+    {
+      "path": "controllers/corpus.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d1bdb19baf482fa395b7411bbdfb1fcad4dbaf8",
+      "size": 4613,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/5d1bdb19baf482fa395b7411bbdfb1fcad4dbaf8"
+    },
+    {
+      "path": "controllers/corpusReader.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53611fb1c8e35cbd53e10c99a32afa03e4a5c98b",
+      "size": 384,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/53611fb1c8e35cbd53e10c99a32afa03e4a5c98b"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79fe3b625ae5cb21efc7546785d368f763beb13d",
+      "size": 132024,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/79fe3b625ae5cb21efc7546785d368f763beb13d"
+    },
+    {
+      "path": "package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "634c1e711ceb7405252891bb5e8e14a1a8895bb2",
+      "size": 1075,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/634c1e711ceb7405252891bb5e8e14a1a8895bb2"
+    },
+    {
+      "path": "responses",
       "mode": "040000",
       "type": "tree",
-      "sha": "090cb209c9e75d49dbacc56f704e1798b38a3c96",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/090cb209c9e75d49dbacc56f704e1798b38a3c96"
+      "sha": "ae0c964bfb39cd431e53449410172d11e7397074",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/ae0c964bfb39cd431e53449410172d11e7397074"
     },
     {
-      "path": "texts/00_book_of_remembrances/book_of_remembrances.xml",
+      "path": "responses/tei-to-html.sef.json",
       "mode": "100644",
       "type": "blob",
-      "sha": "275dae4e9ddc47b2418d9ce9bc1819d7950b83f6",
-      "size": 393409,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/275dae4e9ddc47b2418d9ce9bc1819d7950b83f6"
+      "sha": "024758690b689b3dc259426c03cefd77884c3ece",
+      "size": 41813,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/024758690b689b3dc259426c03cefd77884c3ece"
     },
     {
-      "path": "texts/00_book_of_remembrances/book_of_remembrances_vard.xml",
+      "path": "responses/tei-to-html.xsl",
       "mode": "100644",
       "type": "blob",
-      "sha": "d68f878b041a517f7ba9602c4075ffd7351654d1",
-      "size": 483931,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/d68f878b041a517f7ba9602c4075ffd7351654d1"
+      "sha": "359188ca224e7a38ea2819bced99a8aa7f13d725",
+      "size": 1668,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/359188ca224e7a38ea2819bced99a8aa7f13d725"
     },
     {
-      "path": "texts/01_book_one",
+      "path": "server",
       "mode": "040000",
       "type": "tree",
-      "sha": "bbfebb0f3923521ab618f0c5fcf74a4bddcb3fde",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/bbfebb0f3923521ab618f0c5fcf74a4bddcb3fde"
+      "sha": "cbef636cf01e6c1a31b860ce33665d6f3183c2e8",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/cbef636cf01e6c1a31b860ce33665d6f3183c2e8"
     },
     {
-      "path": "texts/01_book_one/book_one.xml",
+      "path": "server/index.js",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a003268d0aa6d43491969a72ca64f12f9d247001",
+      "size": 338,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/a003268d0aa6d43491969a72ca64f12f9d247001"
+    },
+    {
+      "path": "settings.js",
       "mode": "100644",
       "type": "blob",
-      "sha": "f08ad24f1d1e871eddac7ad43430e3749f5adcff",
-      "size": 1119718,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f08ad24f1d1e871eddac7ad43430e3749f5adcff"
+      "sha": "d571e41bdd58f4fb657a26701acffd5ce6c1b3f3",
+      "size": 718,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/d571e41bdd58f4fb657a26701acffd5ce6c1b3f3"
     },
     {
-      "path": "texts/02_book_two",
+      "path": "tests",
       "mode": "040000",
       "type": "tree",
-      "sha": "adb1cb9f6acf59fbcc2ee42964aa634e43f89d39",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/adb1cb9f6acf59fbcc2ee42964aa634e43f89d39"
+      "sha": "7709713b22023754b6cf0987c4f009001bc4d06e",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/7709713b22023754b6cf0987c4f009001bc4d06e"
     },
     {
-      "path": "texts/02_book_two/book_two.xml",
+      "path": "tests/corpus.test.js",
       "mode": "100644",
       "type": "blob",
-      "sha": "bc24ba5a54cd54a09e49ee9519cee1d530a56de1",
-      "size": 722591,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/bc24ba5a54cd54a09e49ee9519cee1d530a56de1"
+      "sha": "f1dc36e2ea23b6d15bf3b873b421b0a08a354a88",
+      "size": 1164,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/f1dc36e2ea23b6d15bf3b873b421b0a08a354a88"
     },
     {
-      "path": "texts/03_book_three",
+      "path": "tests/corpus",
       "mode": "040000",
       "type": "tree",
-      "sha": "af5ac474cb5a48272d37fd950b1e27e38a8dde45",
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/af5ac474cb5a48272d37fd950b1e27e38a8dde45"
+      "sha": "3161f65ecf38954fffa0a02aac7ff4e9be08a00f",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/3161f65ecf38954fffa0a02aac7ff4e9be08a00f"
     },
     {
-      "path": "texts/03_book_three/book_three.xml",
-      "mode": "100644",
-      "type": "blob",
-      "sha": "f00b5ba676182d95019dd4925a3ca4418cbe1cbd",
-      "size": 967088,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/f00b5ba676182d95019dd4925a3ca4418cbe1cbd"
+      "path": "tests/corpus/02-doc2",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "99ea1f900f3545c983826e07ebf261ca9a3d866e",
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/trees/99ea1f900f3545c983826e07ebf261ca9a3d866e"
     },
     {
-      "path": "texts/README.md",
+      "path": "tests/corpus/02-doc2/doc2.xml",
       "mode": "100644",
       "type": "blob",
-      "sha": "1bfae97e1602a3b65db0bdc5bdcdb3b90d006a39",
-      "size": 31,
-      "url": "https://api.github.com/repos/kingsdigitallab/alice-thornton/git/blobs/1bfae97e1602a3b65db0bdc5bdcdb3b90d006a39"
+      "sha": "fb954d369e1d0cd9dff052048007d81754bb9c84",
+      "size": 13357,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/fb954d369e1d0cd9dff052048007d81754bb9c84"
+    },
+    {
+      "path": "tests/corpus/doc1.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "095da55a1ee0c63e992b2a718d3cf692cc1b69b2",
+      "size": 3935,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/095da55a1ee0c63e992b2a718d3cf692cc1b69b2"
+    },
+    {
+      "path": "tests/gh-trees.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3dad4a6122b59e32177fe302dc2ac5e1bcba005b",
+      "size": 7350,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/3dad4a6122b59e32177fe302dc2ac5e1bcba005b"
+    },
+    {
+      "path": "tests/services.tes.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db8f7c47a7db400f426aee230418879b7ddf3543",
+      "size": 1597,
+      "url": "https://api.github.com/repos/kingsdigitallab/kdl-dts-server/git/blobs/db8f7c47a7db400f426aee230418879b7ddf3543"
     }
   ],
   "truncated": false

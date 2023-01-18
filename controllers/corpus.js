@@ -2,6 +2,7 @@ const xpath = require('xpath')
 const dom = require('xmldom').DOMParser
 const path = require("path");
 const fs = require("fs");
+const CorpusReader = require("./corpusReader")
 
 // npx mocha -b -w ./tests/corpus.test.js
 
@@ -25,9 +26,11 @@ C support for sub-collections (using a .collection.json file under each collecti
  */
 class Corpus {
   constructor(source) {
-    this.source = source
-    this.setReader(source)
+    this.setSource(source)
+    this.setCacheDir()
+  }
 
+  setCacheDir() {
     this.cacheDir = '.corpus'
     if (!fs.existsSync(this.cacheDir)) {
       fs.mkdirSync(this.cacheDir)
@@ -41,11 +44,14 @@ class Corpus {
 
   setReader() {
     this.reader = CorpusReader.new(this.source)
+    if (!this.reader) {
+      throw Error(`Could not create a CorpusReader for the given source (${this.source})`)
+    }
   }
 
   async buildAndSaveTree(reload=false) {
     if (reload || !this.readTree()) {
-      await this.buildTree()
+      this.tree = await this.reader.buildTree()
       this.saveTree()
     }
   }
@@ -75,19 +81,16 @@ class Corpus {
   }
 
   getSourceSlug() {
-    return this.slugify(this.getAbsoluteSource())
-  }
-
-  getAbsoluteSource() {
-    return path.resolve(this.source)
+    return this.slugify(this.reader.getAbsoluteSource())
   }
 
   slugify(str) {
     return str.replace(/\W+/g, "-").replace(/(^-|-$)/g, "")
   }
 
-  getItemAndSubItems(id=null) {
+  getItemAndSubItems(id="ROOT") {
     return {
+      "@context": "https://distributed-text-services.github.io/specifications/context/1.0.0draft-2.json",
       ...this.getItem(id),
       member: this.getSubItems(id)
     }
@@ -98,8 +101,11 @@ class Corpus {
   }
 
   _cleanItem(item) {
+    if (!item) return null
     let ret = {...item}
     ret.totalParents = item.tree.parent ? 1 : 0;
+    ret.totalItems = item.tree.children || 0
+    ret.totalChildren = item.tree.children || 0
     delete ret.tree
     return ret
   }
@@ -119,56 +125,60 @@ class Corpus {
     return ret
   }
 
-  resetTree() {
-    this.tree = {
-      "ROOT": {
-        "@id": "ROOT",
-        "@type": "Collection",
-        "title": "ROOT Collection",
-        "tree": {
-          "source": this.getAbsoluteSource(),
-          "parent": null,
-          "updated": new Date()
-        }
-      }
-    }
-
-    return this.tree
+  readItemContent(id="ROOT") {
+    return this.reader.readItemContent(this.tree[id]?.tree?.source)
   }
 
-  async buildTree(collectionPath) {
-    // TODO: handle collections & sub-collections
-    if (typeof collectionPath === "undefined") {
-      collectionPath = this.source
-      this.resetTree()
-    }
+  // resetTree() {
+  //   this.tree = {
+  //     "ROOT": {
+  //       "@id": "ROOT",
+  //       "@type": "Collection",
+  //       "title": "ROOT Collection",
+  //       "tree": {
+  //         "source": this.getAbsoluteSource(),
+  //         "parent": null,
+  //         "updated": new Date()
+  //       }
+  //     }
+  //   }
 
-    const directory = collectionPath;
+  //   return this.tree
+  // }
+
+  // async buildTree(collectionPath) {
+  //   // TODO: handle collections & sub-collections
+  //   if (typeof collectionPath === "undefined") {
+  //     collectionPath = this.source
+  //     this.resetTree()
+  //   }
+
+  //   const directory = collectionPath;
   
-    for (let filename of fs.readdirSync(directory).sort()) {
-      let filePath = this.getAbsoluteSource();
-      if (fs.lstatSync(filePath).isDirectory()) {
-        this.buildTree(filePath);
-      } else {
-        if (filename.endsWith(".xml")) {
-          let shortName = filename.replace(/\.[^.]*$/, "");
-          // let documentId = `${idCollection}/${handle}`;
-          let docId = `${shortName}`;
-          // let teiMeta = await getMetadataFromTEIFile(filePath);
-          this.tree[docId] = {
-            "@id": docId,
-            "@type": "Resource",
-            "title": docId,
-              // title: teiMeta.title,
-            "tree": {
-              "source": `${filePath}`,
-              "parent": "ROOT",
-            }
-          };
-        }
-      }
-    }
-  }
+  //   for (let filename of fs.readdirSync(directory).sort()) {
+  //     let filePath = this.getAbsoluteSource();
+  //     if (fs.lstatSync(filePath).isDirectory()) {
+  //       this.buildTree(filePath);
+  //     } else {
+  //       if (filename.endsWith(".xml")) {
+  //         let shortName = filename.replace(/\.[^.]*$/, "");
+  //         // let documentId = `${idCollection}/${handle}`;
+  //         let docId = `${shortName}`;
+  //         // let teiMeta = await getMetadataFromTEIFile(filePath);
+  //         this.tree[docId] = {
+  //           "@id": docId,
+  //           "@type": "Resource",
+  //           "title": docId,
+  //             // title: teiMeta.title,
+  //           "tree": {
+  //             "source": `${filePath}`,
+  //             "parent": "ROOT",
+  //           }
+  //         };
+  //       }
+  //     }
+  //   }
+  // }
   
   async getMetadataFromTEIFile(filePath) {
     let content = readFile(filePath);

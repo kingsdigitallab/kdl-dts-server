@@ -1,6 +1,6 @@
 module.exports = {
   // localPath: "../../texts",
-  source: "/home/jeff/src/prj/tst/alice-thornton/texts",
+  source: "tests/corpus",
   // source: "https://github.com/kingsdigitallab/alice-thornton/tree/edition/texts",
   // The stable and base of the URI for most ids (mainly collections & documents).
   // Only used for identifiction, it may not be accessible on the web.

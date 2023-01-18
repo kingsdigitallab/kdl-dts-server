@@ -14,10 +14,6 @@ S test additional fields in the responses
 
 */
 
-// mocha.setup({
-//   bail: true
-// })
-
 
 describe('Unit testing the / route', function() {
 
@@ -48,6 +44,7 @@ describe('Unit testing the / route', function() {
 
 
     it('should have a document with references / navigation', function() {
+      console.log(firstCollectionMember['dts:references'])
       return request(app)
         .get(firstCollectionMember['dts:references'])
         .then(function(response) {
