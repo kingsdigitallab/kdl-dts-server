@@ -29,13 +29,13 @@ To start a local DTS web service:
 ## Must
 
 * add a github action to generate static DTS from thornton corpus 
-* read metadata from TEI file when building the corpus tree to set title field
 * parametrise the DTS server
 * parametrise the SDTS generator
 * test the static generator with github
 
 ## Should
 
+* set the name of the top collection from settings.json
 * default collection.json
 * move settings file under a collection.json file under the top collection folder
 * document!

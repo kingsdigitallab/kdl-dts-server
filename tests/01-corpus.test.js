@@ -3,6 +3,7 @@ const expect = require('chai').expect
 const Corpus = require('../controllers/corpus')
 
 /*
+npx mocha -b -w ./tests/01-corpus.test.js
 TODO:
   improve describe/it structure
 */
@@ -25,25 +26,25 @@ for (let source of sources) {
     });
 
     it('return a root collection', async function() {
-      await corpus.buildAndSaveTree()
-      root = corpus.getItem()
+      await corpus.buildAndSaveTree(!source.startsWith('http'))
+      root = await corpus.getItem()
       assert.ok(root)
-      assert.ok(root.totalParents === 0)
+      assert.equal(root.totalParents, 0)
     });
 
-    it('return two documents under the root collection', function() {
-      let items = corpus.getSubItems()
+    it('return two documents under the root collection', async function() {
+      let items = await corpus.getSubItems()
       assert.equal(items.length, 2)
     });
 
-    it('return two documents under the root collection', function() {
-      let item = corpus.getItemAndSubItems()
+    it('return two documents under the root collection', async function() {
+      let item = await corpus.getItemAndSubItems()
       // console.log(item)
       assert.equal(item.member.length, 2)
     });
 
     it('return the content of the first member under root collection', async function() {
-      let item = corpus.getItemAndSubItems()
+      let item = await corpus.getItemAndSubItems()
       let content = await corpus.readItemContent(item.member[0]["@id"])
       assert.ok(content)
       assert.ok(content.length > 10)

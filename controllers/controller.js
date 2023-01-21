@@ -1,6 +1,7 @@
 "use strict";
-// TODO: add text metadata from TEI
 
+// TODO: add text metadata from TEI
+// TODO: use SaxonJS instead of DOMParser & XPath
 const SaxonJS = require("saxon-js");
 const fs = require("fs");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
@@ -50,7 +51,7 @@ var controllers = {
     res.json(ret);
   },
   collections: async (req, res) => {
-    let ret = corpus.getItemAndSubItems()
+    let ret = await corpus.getItemAndSubItems()
     /*
     TODO:
       "@context": {

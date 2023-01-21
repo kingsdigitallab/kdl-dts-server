@@ -91,8 +91,8 @@ class CorpusReaderFileSystem extends CorpusReader {
           ret[docId] = {
             "@id": docId,
             "@type": "Resource",
-            "title": docId,
-              // title: teiMeta.title,
+            // "title": docId,
+            // title: teiMeta.title,
             "tree": {
               "source": `${path.resolve(filePath)}`,
               "parent": parent['@id'],
@@ -163,7 +163,7 @@ class CorpusReaderGitHub extends CorpusReader {
       ret[itemId] = {
         "@id": itemId,
         "@type": "Resource",
-        "title": itemId,
+        // "title": itemId,
         tree: {
           source: item.path,
           parent: parent['@id']

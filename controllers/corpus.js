@@ -1,5 +1,6 @@
-const xpath = require('xpath')
-const dom = require('xmldom').DOMParser
+const SaxonJS = require("saxon-js");
+// const xpath = require('xpath')
+// const dom = require('xmldom').DOMParser
 const path = require("path");
 const fs = require("fs");
 const CorpusReader = require("./corpusReader")
@@ -9,13 +10,11 @@ const CorpusReader = require("./corpusReader")
 
 /*
 TODO:
-M move file caching from controller to here
 M add missing DTS fields in the getItem responses
-M improve the IDs (in controller?)
-M move file reading from controller to Corpus class
-M create extension that can read corpus from Github folders
 S optimise for large collections on github (with caching, lazy loading & pagination)
 S document limitations (e.g. unique file name or @xml:id)
+C move file caching from controller to here
+C improve the IDs (in controller?)
 C support for sub-collections (using a .collection.json file under each collection folder) 
 */
 
@@ -68,7 +67,6 @@ class Corpus {
   }
 
   saveTree() {
-    console.log(`Save tree ${this.getTreePath()}`)
     fs.writeFileSync(
       this.getTreePath(), 
       JSON.stringify(this.tree, null, 2), 
@@ -88,28 +86,36 @@ class Corpus {
     return str.replace(/\W+/g, "-").replace(/(^-|-$)/g, "")
   }
 
-  getItemAndSubItems(id="ROOT") {
+  async getItemAndSubItems(id="ROOT") {
     return {
       "@context": "https://distributed-text-services.github.io/specifications/context/1.0.0draft-2.json",
-      ...this.getItem(id),
-      member: this.getSubItems(id)
+      ...await this.getItem(id),
+      member: await this.getSubItems(id)
     }
   }
 
-  getItem(id="ROOT") {
-    return this._cleanItem(this._getItem(id))
+  async getItem(id="ROOT") {
+    return await this._cleanItem(this._getItem(id))
   }
 
   _getItem(id="ROOT") {
     return CorpusReader.getTreeItem(this.tree, id)
   }
 
-  _cleanItem(item) {
+  async _cleanItem(item) {
     if (!item) return null
+
+    if (!item.title) {
+      let meta = await this.getMetadataFromTEIFile(item["@id"])
+      item.title = meta.title
+      this.saveTree()
+    }
+
     let ret = {...item}
     ret.totalParents = item.tree.parent ? 1 : 0;
     ret.totalItems = item.tree.children || 0
     ret.totalChildren = item.tree.children || 0
+
     delete ret.tree
     return ret
   }
@@ -118,11 +124,11 @@ class Corpus {
     return this._getItem(id).tree.source
   }
 
-  getSubItems(id="ROOT") {
+  async getSubItems(id="ROOT") {
     let ret = []
     for (let item of Object.values(this.tree)) {
       if (item.tree.parent === id) {
-        ret.push(this._cleanItem(item))
+        ret.push(await this._cleanItem(item))
       }
     }
     return ret
@@ -132,60 +138,9 @@ class Corpus {
     // console.log(this.tree[id])
     return await this.reader.readItemContent(this._getItem(id)?.tree?.source)
   }
-
-  // resetTree() {
-  //   this.tree = {
-  //     "ROOT": {
-  //       "@id": "ROOT",
-  //       "@type": "Collection",
-  //       "title": "ROOT Collection",
-  //       "tree": {
-  //         "source": this.getAbsoluteSource(),
-  //         "parent": null,
-  //         "updated": new Date()
-  //       }
-  //     }
-  //   }
-
-  //   return this.tree
-  // }
-
-  // async buildTree(collectionPath) {
-  //   // TODO: handle collections & sub-collections
-  //   if (typeof collectionPath === "undefined") {
-  //     collectionPath = this.source
-  //     this.resetTree()
-  //   }
-
-  //   const directory = collectionPath;
   
-  //   for (let filename of fs.readdirSync(directory).sort()) {
-  //     let filePath = this.getAbsoluteSource();
-  //     if (fs.lstatSync(filePath).isDirectory()) {
-  //       this.buildTree(filePath);
-  //     } else {
-  //       if (filename.endsWith(".xml")) {
-  //         let shortName = filename.replace(/\.[^.]*$/, "");
-  //         // let documentId = `${idCollection}/${handle}`;
-  //         let docId = `${shortName}`;
-  //         // let teiMeta = await getMetadataFromTEIFile(filePath);
-  //         this.tree[docId] = {
-  //           "@id": docId,
-  //           "@type": "Resource",
-  //           "title": docId,
-  //             // title: teiMeta.title,
-  //           "tree": {
-  //             "source": `${filePath}`,
-  //             "parent": "ROOT",
-  //           }
-  //         };
-  //       }
-  //     }
-  //   }
-  // }
-  
-  async getMetadataFromTEIFile(filePath) {
-    let content = readFile(filePath);
+  async getMetadataFromTEIFile(documentId) {
+    let content = await this.readItemContent(documentId);
     // optimisation: we extract the TEI header (so less xml to parse)
     let m = content.match(/^.*<\/teiHeader>/s);
     content = `${m[0]}</TEI>`;
