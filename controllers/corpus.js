@@ -1,7 +1,6 @@
 const SaxonJS = require("saxon-js");
 // const xpath = require('xpath')
 // const dom = require('xmldom').DOMParser
-const path = require("path");
 const fs = require("fs");
 const CorpusReader = require("./corpusReader")
 

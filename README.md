@@ -28,10 +28,8 @@ To start a local DTS web service:
 
 ## Must
 
-* add a github action to generate static DTS from thornton corpus 
-* parametrise the DTS server
-* parametrise the SDTS generator
 * test the static generator with github
+* add a github action to generate static DTS from thornton corpus 
 
 ## Should
 

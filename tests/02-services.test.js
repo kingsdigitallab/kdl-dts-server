@@ -14,7 +14,6 @@ S test additional fields in the responses
 
 */
 
-
 describe('Unit testing the / route', function() {
 
   let collectionUrl = ''

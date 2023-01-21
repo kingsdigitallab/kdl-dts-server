@@ -4,12 +4,30 @@
 // TODO: use SaxonJS instead of DOMParser & XPath
 const SaxonJS = require("saxon-js");
 const fs = require("fs");
+const path = require("path");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
-const settings = require("../settings.js");
+
+// read service settings from settings.js .
+// they can be overridden by a json file passed as the last argument
+function readSettings() {
+  let ret = require("../settings.js");
+  let path = process.argv[process.argv.length - 1]
+  if (path.endsWith(".json")) {
+    let content = fs.readFileSync(path)
+    ret = {
+      ...ret,
+      ...JSON.parse(content)
+    }
+  }
+  return ret  
+}
+const settings = readSettings()
+
 const XPath = require("xpath");
 const collectionRoot = settings.source;
 const Corpus = require("./corpus")
 const corpus = new Corpus(settings.source)
+
 corpus.buildAndSaveTree()
 // tei namespace
 const TEINS = "http://www.tei-c.org/ns/1.0";
@@ -207,28 +225,6 @@ var controllers = {
     res.send(chunk);
   },
 };
-
-// TODO: convert those functions into a class
-
-// async function getMetadataFromTEIFile(filePath) {
-//   let content = readFile(filePath);
-//   // optimisation: we extract the TEI header (so less xml to parse)
-//   let m = content.match(/^.*<\/teiHeader>/s);
-//   content = `${m[0]}</TEI>`;
-//   let doc = await SaxonJS.getResource({ text: content, type: "xml" });
-
-//   let ret = {
-//     title: "//teiHeader/fileDesc/titleStmt/title[1]/text()",
-//   };
-
-//   for (const [k, v] of Object.entries(ret)) {
-//     ret[k] = SaxonJS.XPath.evaluate(v, doc, {
-//       xpathDefaultNamespace: "http://www.tei-c.org/ns/1.0",
-//     }).data;
-//   }
-
-//   return ret;
-// }
 
 function getHTMLfromTEI(tei) {
   let ret = "";
