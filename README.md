@@ -26,13 +26,22 @@ To start a local DTS web service:
 
 # TODO
 
-* move settings file under a collection.json file under the top collection folder
-* default collection.json
+## Must
+
+* add a github action to generate static DTS from thornton corpus 
 * read metadata from TEI file when building the corpus tree to set title field
+* parametrise the DTS server
 * parametrise the SDTS generator
 * test the static generator with github
-* add a github action to generate static DTS from thornton corpus 
+
+## Should
+
+* default collection.json
+* move settings file under a collection.json file under the top collection folder
 * document!
+
+## Could
+
 * XSLT file could be placed under corpus folder
 * Extend DTS services to support CSS stylesheets
 * paramterise the units of texts (at the moment only <pb n="X">)
@@ -41,4 +50,3 @@ To start a local DTS web service:
 * support for sub-collections
 * support TEI files having a single passage
 * support request to entire document
- 

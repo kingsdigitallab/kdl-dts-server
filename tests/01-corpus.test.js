@@ -14,12 +14,6 @@ const sources = [
 ]
 
 for (let source of sources) {
-  // const source = "https://github.com/kingsdigitallab/alice-thornton/tree/edition/texts"
-  // const source = "https://github.com/kingsdigitallab/kdl-dts-server/tree/main/tests/corpus"
-  // https://api.github.com/repos/kingsdigitallab/alice-thornton/git/trees/edition?recursive=1
-  // 
-  // https://api.github.com/repos/TU-plogan/kp-editions/git/trees/main?recursive=1
-
   describe(`Unit testing Corpus class, source = ${source}`, function() {
 
     let corpus = null
