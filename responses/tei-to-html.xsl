@@ -3,7 +3,8 @@
   xmlns="http://www.tei-c.org/ns/1.0" 
   xmlns:html="http://www.w3.org/1999/xhtml" 
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:dts="https://w3id.org/dts/api#">
   <xsl:output method="xml" indent="yes" />
 
     <xsl:template match="comment()">
@@ -22,6 +23,16 @@
         <xsl:call-template name="lossless-span"/>
     </xsl:template>
 
+    <xsl:template match="dts:fragment">
+        <div class="dts-fragment" data-dts="fragment">
+            <xsl:apply-templates />
+        </div>
+    </xsl:template>
+
+    <xsl:template match="tei:TEI|tei:front|tei:titlePage">
+        <xsl:call-template name="lossless-div"/>
+    </xsl:template>
+
     <xsl:template match="tei:p|tei:div">
         <xsl:copy>
             <xsl:call-template name="lossless-attributes"/>
@@ -34,6 +45,13 @@
             <xsl:call-template name="lossless-attributes"/>
             <xsl:apply-templates />
         </span>
+    </xsl:template>
+
+    <xsl:template name="lossless-div">
+        <div>
+            <xsl:call-template name="lossless-attributes"/>
+            <xsl:apply-templates />
+        </div>
     </xsl:template>
 
     <xsl:template name="lossless-attributes">

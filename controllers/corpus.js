@@ -68,7 +68,7 @@ class Corpus {
   }
 
   saveTree() {
-    console.log(this.getTreePath())
+    console.log(`Save tree ${this.getTreePath()}`)
     fs.writeFileSync(
       this.getTreePath(), 
       JSON.stringify(this.tree, null, 2), 
@@ -97,7 +97,11 @@ class Corpus {
   }
 
   getItem(id="ROOT") {
-    return this._cleanItem(this.tree[id])
+    return this._cleanItem(this._getItem(id))
+  }
+
+  _getItem(id="ROOT") {
+    return CorpusReader.getTreeItem(this.tree, id)
   }
 
   _cleanItem(item) {
@@ -111,8 +115,7 @@ class Corpus {
   }
 
   getItemSource(id="ROOT") {
-    let ret = null
-    return this.tree[id].tree.source
+    return this._getItem(id).tree.source
   }
 
   getSubItems(id="ROOT") {
@@ -125,8 +128,9 @@ class Corpus {
     return ret
   }
 
-  readItemContent(id="ROOT") {
-    return this.reader.readItemContent(this.tree[id]?.tree?.source)
+  async readItemContent(id="ROOT") {
+    // console.log(this.tree[id])
+    return await this.reader.readItemContent(this._getItem(id)?.tree?.source)
   }
 
   // resetTree() {

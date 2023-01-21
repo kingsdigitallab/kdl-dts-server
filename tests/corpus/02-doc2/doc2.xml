@@ -87,6 +87,7 @@
         </head>
         <!-- Add lg element with type, subtype, and n attributes
         Add l elements with n attributes -->
+        <pb n="1"/>
         <lg type="poem" n="1">
           <head>I</head>
           <lg type="stanza" subtype="sextet" n="1">
@@ -170,6 +171,7 @@
             <l n="60">Qui tombe et rend un son monstrueux, surhumain:</l>
           </lg>
         </lg>
+        <pb n="2"/>
         <lg type="poem" n="2">
           <head>II</head>
           <lg type="stanza" subtype="quintet" n="11">

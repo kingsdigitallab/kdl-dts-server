@@ -5,7 +5,8 @@
   "/main": "server.js",
   "scripts": {
     "test": "mocha -b ./tests/*.test.js",
-    "start": "nodemon ./bin/server.js"
+    "start": "nodemon ./bin/server.js",
+    "xslt": "npx xslt3 -xsl:responses/tei-to-html.xsl -export:responses/tei-to-html.sef.json -t -ns:##html5 -nogo"
   },
   "bin": {
     "kdl-dts-server": "./bin/server.js"

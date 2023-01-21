@@ -43,6 +43,14 @@ class CorpusReader {
     return ret
   }
 
+  static getTreeItem(tree, id="ROOT") {
+    if (id === "ROOT") {
+      return Object.values(tree)[0]
+    } else {
+      return tree[id]
+    }
+  }
+  
 }
 
 class CorpusReaderFileSystem extends CorpusReader {
@@ -51,12 +59,12 @@ class CorpusReaderFileSystem extends CorpusReader {
     return path.resolve(this.source)
   }
 
-  readItemContent(itemSource) {
+  async readItemContent(itemSource) {
     if (!itemSource) return null
     if (!fs.existsSync(itemSource)) return null
 
+    // TODO: use readFile
     return fs.readFileSync(itemSource, {encoding:'utf8', flag:'r'})
-    
   }
 
   async buildTree(collectionPath, ret, parent=null) {
@@ -64,7 +72,7 @@ class CorpusReaderFileSystem extends CorpusReader {
     if (typeof collectionPath === "undefined") {
       ret = this.newTree()
       collectionPath = this.source
-      parent = ret['ROOT']
+      parent = CorpusReader.getTreeItem(ret)
     }
 
     const directory = collectionPath;
@@ -104,7 +112,23 @@ class CorpusReaderGitHub extends CorpusReader {
     return this.source
   }
 
+  async readItemContent(itemSource) {
+    // console.log(`readItemContent "${itemSource}"`)
+    if (!itemSource) return null
+    // this.source: https://github.com/kingsdigitallab/kdl-dts-server/tree/main/tests/corpus
+    // itemSource:  tests/corpus/02-doc2/doc2.xml
+    // fetch: https://raw.githubusercontent.com/kingsdigitallab/kdl-dts-server/main/tests/corpus/02-doc2/doc2.xml
+    // TODO
+    let path = this.source.replace(
+      /https:\/\/github\.com\/([^\/]+\/[^\/]+)\/tree\/([^\/]+).*$/, 
+      `https://raw.githubusercontent.com/$1/$2/${itemSource}`
+    )
+    let ret = await dtsutils.fetchContent(path, 'xml')
+    return ret
+  }
+
   async buildTree(collectionPath) {
+    // console.log(`Build DTS tree from github corpus (${this.source})`)
 
     let source = this.source
     source = source.replace(
@@ -128,19 +152,21 @@ class CorpusReaderGitHub extends CorpusReader {
     if (pathPrefixFilter) pathPrefixFilter += "/"
     
     let ret = this.newTree()
+    let parent = CorpusReader.getTreeItem(ret)
 
     for (let item of tree.tree) {
       if (!item.path.startsWith(pathPrefixFilter)) continue;
       if (!item.path.endsWith('.xml')) continue;
       let itemId = item.path.replace(/^.*\//, "")
       itemId = itemId.replace(/(.*?)\.\w+$/, "$1")
+      parent.tree.children += 1
       ret[itemId] = {
         "@id": itemId,
         "@type": "Resource",
         "title": itemId,
         tree: {
-          path: item.path,
-          parent: "ROOT"
+          source: item.path,
+          parent: parent['@id']
         }
       }
     }
