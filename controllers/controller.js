@@ -233,7 +233,7 @@ function getHTMLfromTEI(tei) {
   // npx xslt3 -xsl:tei-to-html.xsl -export:tei-to-html.sef.json -t -ns:##html5 -nogo
   let output = SaxonJS.transform(
     {
-      stylesheetFileName: "responses/tei-to-html.sef.json",
+      stylesheetFileName: `${__dirname}/../responses/tei-to-html.sef.json`,
       sourceText: tei,
       destination: "serialized",
     },
