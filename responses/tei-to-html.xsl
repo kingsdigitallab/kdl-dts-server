@@ -19,6 +19,10 @@
         </br>
     </xsl:template>
 
+    <xsl:template match="tei:head">
+        <h1><xsl:call-template name="lossless-attributes"/></h1>
+    </xsl:template>
+
     <xsl:template match="*">
         <xsl:call-template name="lossless-span"/>
     </xsl:template>
@@ -41,15 +45,12 @@
     </xsl:template>
 
     <xsl:template match="*[@ref]">
-        <xsl:copy>
-            <xsl:call-template name="lossless-attributes"/>
-            <a>
-                <xsl:attribute name="href">
-                    <xsl:value-of select="concat('/entities/', translate(@ref, ':', '/'))" />
-                </xsl:attribute>
-                <xsl:apply-templates />
-            </a>
-        </xsl:copy>
+        <xsl:copy><xsl:call-template name="lossless-attributes"/><a>
+            <xsl:attribute name="href">
+                <xsl:value-of select="concat('/entities/', translate(@ref, ':', '/'))" />
+            </xsl:attribute>
+            <xsl:apply-templates />
+        </a></xsl:copy>
     </xsl:template>
  
     <xsl:template name="lossless-span">
