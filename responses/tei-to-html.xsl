@@ -39,6 +39,18 @@
             <xsl:apply-templates />
         </xsl:copy>
     </xsl:template>
+
+    <xsl:template match="*[@ref]">
+        <xsl:copy>
+            <xsl:call-template name="lossless-attributes"/>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:value-of select="concat('/entities/', translate(@ref, ':', '/'))" />
+                </xsl:attribute>
+                <xsl:apply-templates />
+            </a>
+        </xsl:copy>
+    </xsl:template>
  
     <xsl:template name="lossless-span">
         <span>
