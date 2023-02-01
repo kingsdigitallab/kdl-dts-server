@@ -20,7 +20,7 @@
     </xsl:template>
 
     <xsl:template match="tei:head">
-        <h1><xsl:call-template name="lossless-attributes"/></h1>
+        <h1><xsl:call-template name="lossless-attributes"/><xsl:apply-templates /></h1>
     </xsl:template>
 
     <xsl:template match="*">
