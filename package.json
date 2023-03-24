@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha -b ./tests/*.test.js",
     "start": "nodemon ./bin/server.js",
-    "xslt": "npx xslt3 -xsl:responses/tei-to-html.xsl -export:responses/tei-to-html.sef.json -t -ns:##html5 -nogo"
+    "xslt": "npx xslt3 -xsl:responses/tei-to-html.xsl -export:responses/tei-to-html.sef.json -t -ns:##html5 -nogo",
+    "start:at": "nodemon ./bin/server.js tests/settings-at.json"
   },
   "bin": {
     "kdl-dts-server": "./bin/server.js"
@@ -38,5 +39,8 @@
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
     "supertest": "^6.3.3"
+  },
+  "nodemonConfig": {
+    "ignore": ["responses/*", ".corpus/*"]
   }
 }

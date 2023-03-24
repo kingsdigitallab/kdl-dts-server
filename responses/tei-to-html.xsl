@@ -33,8 +33,8 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="tei:TEI|tei:front|tei:titlePage">
-        <xsl:call-template name="lossless-div"/>
+    <xsl:template match="tei:TEI|tei:front|tei:titlePage|tei:figure">
+         <xsl:call-template name="lossless-div"/>
     </xsl:template>
 
     <xsl:template match="tei:p|tei:div">

@@ -6,6 +6,12 @@ const SaxonJS = require("saxon-js");
 const fs = require("fs");
 const path = require("path");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
+const {execSync} = require('child_process')
+
+const transformXsltPath = `${__dirname}/../responses/tei-to-html.xsl`
+const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
+// const transformCommand = `npx xslt3 -xsl:tei-to-html.xsl -export:tei-to-html.sef.json -t -ns:##html5 -nogo`
+const transformCommand = `npm run xslt`
 
 // read service settings from settings.js .
 // they can be overridden by a json file passed as the last argument
@@ -231,9 +237,11 @@ function getHTMLfromTEI(tei) {
 
   // todo: regenerate sef.json file if older than xslt
   // npx xslt3 -xsl:tei-to-html.xsl -export:tei-to-html.sef.json -t -ns:##html5 -nogo
+  writeTransformJson()
+
   let output = SaxonJS.transform(
     {
-      stylesheetFileName: `${__dirname}/../responses/tei-to-html.sef.json`,
+      stylesheetFileName: transformJsonPath,
       sourceText: tei,
       destination: "serialized",
     },
@@ -248,6 +256,16 @@ function getHTMLfromTEI(tei) {
   ret = ret.replace(/<\?xml\\s+version="1.0"\\s+encoding="UTF-8"\?>/, "");
 
   return ret;
+}
+
+function writeTransformJson() {
+  if (getFileModifiedTime(transformJsonPath) < getFileModifiedTime(transformXsltPath)) {
+    execSync(transformCommand)
+  }
+}
+
+function getFileModifiedTime(path) {
+  return fs.statSync(path).mtime.getTime()
 }
 
 async function getPagesFromDocument(documentId) {
