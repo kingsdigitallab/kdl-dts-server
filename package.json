@@ -1,6 +1,6 @@
 {
   "name": "kdl-dts-server",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Distributed Text Service (DTS) server from TEI files.",
   "/main": "server.js",
   "scripts": {
