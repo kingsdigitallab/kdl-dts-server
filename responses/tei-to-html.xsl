@@ -5,7 +5,8 @@
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:dts="https://w3id.org/dts/api#">
-  <xsl:output method="html" indent="yes" />
+  <!-- indent=yes would produce superfluous whitespaces in the ouput (e.g. choice, ...)  -->
+  <xsl:output method="html" indent="no" />
 
   <xsl:template match="comment()">
   </xsl:template>
