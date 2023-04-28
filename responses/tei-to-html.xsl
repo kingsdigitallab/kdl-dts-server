@@ -78,6 +78,7 @@
     <xsl:attribute name="class">
       <xsl:value-of select="concat('tei-', local-name())"/>
       <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
+      <xsl:if test="(count(text()) = 1) and (not(matches(text()[1], '[a-z]', 'i')))"> not-a-word</xsl:if>
     </xsl:attribute>
     <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
     <xsl:apply-templates select="@*" mode="data-tei" />
