@@ -73,7 +73,7 @@
       <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
+
 
   <xsl:template name="lossless-attributes">
     <xsl:attribute name="class">
@@ -108,7 +108,7 @@
       <a href="#" class="btn-figure">&#x1f4f7;</a>
       <figure class="tei-figure hidden" data-tei="figure">
         <figcaption><xsl:value-of select="tei:head/text()" /></figcaption>
-        <img src="/assets/img/posts/book-remembrances-outside-first-sighting.jpg" data-src="{tei:graphic/@url}" alt="{tei:head/text()}">
+        <img src="/assets/img/books/viewer/{tei:graphic/@url}" data-src="{tei:graphic/@url}" alt="{tei:head/text()}">
           <!-- xsl:attribute name=""><xsl:value-of select="." /></xsl:attribute -->
         </img>
         <xsl:apply-templates select="tei:p" />
