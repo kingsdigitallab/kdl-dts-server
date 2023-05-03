@@ -10,8 +10,10 @@ const {execSync} = require('child_process')
 
 const transformXsltPath = `${__dirname}/../responses/tei-to-html.xsl`
 const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
-// const transformCommand = `npx xslt3 -xsl:tei-to-html.xsl -export:tei-to-html.sef.json -t -ns:##html5 -nogo`
-const transformCommand = `npm run xslt`
+// Bad idea... it won't work when this package running from within node_modules
+// const transformCommand = `npm run xslt`
+const transformCommand = `npx xslt3 -xsl:${transformXsltPath} -export:${transformJsonPath} -t -ns:##html5 -nogo`
+console.log(transformCommand)
 
 // read service settings from settings.js .
 // they can be overridden by a json file passed as the last argument

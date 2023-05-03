@@ -73,6 +73,7 @@
       <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
 
   <xsl:template name="lossless-attributes">
     <xsl:attribute name="class">
