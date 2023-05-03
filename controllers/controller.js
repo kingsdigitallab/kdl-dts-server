@@ -13,7 +13,6 @@ const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
 // Bad idea... it won't work when this package running from within node_modules
 // const transformCommand = `npm run xslt`
 const transformCommand = `npx xslt3 -xsl:${transformXsltPath} -export:${transformJsonPath} -t -ns:##html5 -nogo`
-console.log(transformCommand)
 
 // read service settings from settings.js .
 // they can be overridden by a json file passed as the last argument
