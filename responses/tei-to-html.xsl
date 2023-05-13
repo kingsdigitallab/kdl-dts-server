@@ -8,20 +8,69 @@
   <!-- indent=yes would produce superfluous whitespaces in the ouput (e.g. choice, ...)  -->
   <xsl:output method="html" indent="no" />
 
+  <!-- GENERIC TRANSFORMS ############################### -->
+
+  <xsl:template match="*">
+    <xsl:call-template name="lossless-span"/>
+  </xsl:template>
+
+  <xsl:template name="lossless-span">
+    <span>
+      <xsl:call-template name="lossless-attributes"/>
+      <xsl:call-template name="process-children" />
+    </span>
+  </xsl:template>
+
+  <xsl:template name="lossless-div">
+    <div>
+      <xsl:call-template name="lossless-attributes"/>
+      <xsl:call-template name="process-children" />
+    </div>
+  </xsl:template>
+
+  <xsl:template name="lossless-attributes">
+    <xsl:attribute name="class">
+      <xsl:value-of select="concat('tei-', local-name())"/>
+      <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
+      <xsl:if test="(count(text()) = 1) and (not(matches(text()[1], '[a-z]', 'i')))"> not-a-word</xsl:if>
+    </xsl:attribute>
+    <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
+    <xsl:apply-templates select="@*" mode="data-tei" />
+  </xsl:template>
+
+  <xsl:template name="process-children">
+    <xsl:choose>
+      <xsl:when test="@norm">
+        <span class="norm"><xsl:value-of select="@norm"/></span>
+        <span class="orig"><xsl:apply-templates /></span>
+      </xsl:when>
+      <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="lossless-attributes-and-children">
+      <xsl:call-template name="lossless-attributes"/>
+      <xsl:call-template name="process-children" />
+  </xsl:template>
+
+  <xsl:template match="@*" mode="data-tei">
+    <xsl:attribute name="{concat('data-tei-', local-name())}"><xsl:value-of select="." /></xsl:attribute>
+  </xsl:template>
+
+  <!-- SUPRESSED ELEMENTS ############################### -->
+
   <xsl:template match="comment()">
   </xsl:template>
 
   <xsl:template match="tei:teiHeader">
   </xsl:template>
 
+  <!-- OTHERS ############################### -->
+
   <xsl:template match="tei:lb">
     <br>
       <xsl:call-template name="lossless-attributes"/>
     </br>
-  </xsl:template>
-
-  <xsl:template match="*">
-    <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
   <xsl:template match="dts:fragment">
@@ -41,6 +90,11 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="tei:note//tei:p">
+    <!-- we don't want block element within another block element -->
+    <xsl:call-template name="lossless-span"/>
+  </xsl:template>
+
   <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
     <span><xsl:call-template name="lossless-attributes"/><a>
       <xsl:attribute name="href">
@@ -50,57 +104,26 @@
     </a></span>
   </xsl:template>
  
-  <xsl:template name="lossless-span">
-    <span>
-      <xsl:call-template name="lossless-attributes"/>
-      <xsl:call-template name="process-children" />
-    </span>
-  </xsl:template>
-
-  <xsl:template name="lossless-div">
-    <div>
-      <xsl:call-template name="lossless-attributes"/>
-      <xsl:call-template name="process-children" />
-    </div>
-  </xsl:template>
-
-  <xsl:template name="process-children">
-    <xsl:choose>
-      <xsl:when test="@norm">
-        <span class="norm"><xsl:value-of select="@norm"/></span>
-        <span class="orig"><xsl:apply-templates /></span>
-      </xsl:when>
-      <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-
-  <xsl:template name="lossless-attributes">
-    <xsl:attribute name="class">
-      <xsl:value-of select="concat('tei-', local-name())"/>
-      <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
-      <xsl:if test="(count(text()) = 1) and (not(matches(text()[1], '[a-z]', 'i')))"> not-a-word</xsl:if>
-    </xsl:attribute>
-    <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
-    <xsl:apply-templates select="@*" mode="data-tei" />
-  </xsl:template>
-
-  <xsl:template match="@*" mode="data-tei">
-    <xsl:attribute name="{concat('data-tei-', local-name())}"><xsl:value-of select="." /></xsl:attribute>
-  </xsl:template>
-
   <!-- ############################# -->
 
   <xsl:template match="tei:docTitle">
-    <h1 class="tei-docTitle"><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /></h1>
+    <h1 class="tei-docTitle"><xsl:call-template name="lossless-attributes-and-children" /></h1>
   </xsl:template>
 
   <xsl:template match="tei:head">
-    <h2 class="tei-head"><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /></h2>
+    <h2 class="tei-head"><xsl:call-template name="lossless-attributes-and-children" /></h2>
+  </xsl:template>
+
+  <xsl:template match="tei:add">
+    <ins><xsl:call-template name="lossless-attributes-and-children" /></ins>
+  </xsl:template>
+
+  <xsl:template match="tei:del">
+    <del><xsl:call-template name="lossless-attributes-and-children" /></del>
   </xsl:template>
 
   <xsl:template match="*[@rend='superscript']">
-    <sup><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /></sup>
+    <sup><xsl:call-template name="lossless-attributes-and-children" /></sup>
   </xsl:template>
 
   <xsl:template match="tei:figure">

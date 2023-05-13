@@ -4,5 +4,6 @@
   "rootCollection": {
     "slug": "thornton-books",
     "title": "Alice Thornton's books"
-  }
+  },
+  "preTransformPath": "../responses/at-tei-to-tei.xsl"
 }

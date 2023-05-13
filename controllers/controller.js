@@ -8,11 +8,11 @@ const path = require("path");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
 const {execSync} = require('child_process')
 
-const transformXsltPath = `${__dirname}/../responses/tei-to-html.xsl`
-const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
+const transformToHTMLPath = `${__dirname}/../responses/tei-to-html.xsl`
+// const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
 // Bad idea... it won't work when this package running from within node_modules
 // const transformCommand = `npm run xslt`
-const transformCommand = `npx xslt3 -xsl:${transformXsltPath} -export:${transformJsonPath} -t -ns:##html5 -nogo`
+// const transformCommand = `npx xslt3 -xsl:${transformXsltPath} -export:${transformJsonPath} -t -ns:##html5 -nogo`
 
 // read service settings from settings.js .
 // they can be overridden by a json file passed as the last argument
@@ -26,6 +26,14 @@ function readSettings() {
       ...JSON.parse(content)
     }
   }
+
+  // convert all relative paths
+  for (let k of ['preTransformPath']) {
+    if (ret[k]) {
+      ret[k] = ret[k].replace(/^(\.+\/)/, (__dirname)+'/$1')
+    }
+  }
+
   return ret  
 }
 const settings = readSettings()
@@ -234,16 +242,27 @@ var controllers = {
 };
 
 function getHTMLfromTEI(tei) {
+  let ret = transformXML(tei, transformToHTMLPath)
+
+  // remove all namespaces
+  ret = ret.replace(/\s*xmlns(:\w+)?="[^"]*"\s*/gs, " ");
+  // remove xml declaration
+  ret = ret.replace(/<\?xml\\s+version="1.0"\\s+encoding="UTF-8"\?>/, "");
+
+  return ret
+}
+
+function transformXML(sourceText, transformXsltPath) {
   let ret = "";
 
   // todo: regenerate sef.json file if older than xslt
   // npx xslt3 -xsl:tei-to-html.xsl -export:tei-to-html.sef.json -t -ns:##html5 -nogo
-  writeTransformJson()
+  let transformJsonPath = writeTransformJson(transformXsltPath)
 
   let output = SaxonJS.transform(
     {
       stylesheetFileName: transformJsonPath,
-      sourceText: tei,
+      sourceText: sourceText,
       destination: "serialized",
     },
     "sync"
@@ -251,22 +270,26 @@ function getHTMLfromTEI(tei) {
 
   ret = output.principalResult;
 
-  // remove all namespaces
-  ret = ret.replace(/\s*xmlns(:\w+)?="[^"]*"\s*/gs, " ");
-  // remove xml declaration
-  ret = ret.replace(/<\?xml\\s+version="1.0"\\s+encoding="UTF-8"\?>/, "");
-
   return ret;
 }
 
-function writeTransformJson() {
-  if (getFileModifiedTime(transformJsonPath) < getFileModifiedTime(transformXsltPath)) {
-    execSync(transformCommand)
+function writeTransformJson(transformXsltPath) {
+  if (!fs.existsSync(transformXsltPath)) {
+    throw new Error(`Transform file not found: ${transformXsltPath}`)
   }
+  let ret = transformXsltPath.replace('.xsl', '.sef.json')
+  if (getFileModifiedTime(ret) < getFileModifiedTime(transformXsltPath)) {
+    execSync(`npx xslt3 -xsl:${transformXsltPath} -export:${ret} -t -ns:##html5 -nogo`)
+  }
+  return ret
 }
 
 function getFileModifiedTime(path) {
-  return fs.statSync(path).mtime.getTime()
+  let ret = 0
+  if (fs.existsSync(path)) {
+    ret = fs.statSync(path).mtime.getTime()
+  }
+  return ret
 }
 
 async function getPagesFromDocument(documentId) {
@@ -284,6 +307,11 @@ async function getContentFromDocumentId(documentId) {
   let ret = cache.lastRead.content;
   if (!ret || cache.lastRead.documentId != documentId) {
     ret = await corpus.readItemContent(documentId)
+
+    if (settings.preTransformPath) {
+      ret = transformXML(ret, settings.preTransformPath)
+    }
+
     cache.lastRead = {
       documentId: documentId,
       content: ret,
