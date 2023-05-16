@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="2.0" 
-  xmlns="http://www.tei-c.org/ns/1.0" 
+  xmlns="http://www.w3.org/1999/xhtml" 
   xmlns:html="http://www.w3.org/1999/xhtml" 
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -15,15 +15,17 @@
   </xsl:template>
 
   <xsl:template name="lossless-span">
+    <xsl:param name="class" select="''" />
     <span>
-      <xsl:call-template name="lossless-attributes"/>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="$class"/></xsl:call-template>
       <xsl:call-template name="process-children" />
     </span>
   </xsl:template>
 
   <xsl:template name="lossless-div">
+    <xsl:param name="class" select="''" />
     <div>
-      <xsl:call-template name="lossless-attributes"/>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="$class"/></xsl:call-template>
       <xsl:call-template name="process-children" />
     </div>
   </xsl:template>
@@ -114,19 +116,51 @@
 
   <!-- INTERACTIVE ############################# -->
 
+  <xsl:template match="tei:anchor">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="tei:note">
+    <span>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'info-box'"/></xsl:call-template>
+      <span class="banner">
+        <!-- <xsl:value-of select="concat(upper-case(substring(../@type,1,1)),substring(../@type, 2),' ')" /> -->
+        <xsl:choose>
+          <xsl:when test="../@type='context'">Context </xsl:when>
+          <xsl:when test="../@type='person'">Person </xsl:when>
+          <xsl:when test="ends-with(../name(), 'persName')">Person </xsl:when>
+          <xsl:when test="ends-with(../name(), 'placeName')">Place </xsl:when>
+          <xsl:when test="ends-with(../name(), 'geogName')">Place </xsl:when>
+        </xsl:choose>
+        <xsl:choose>
+          <xsl:when test="@type='entity'">(Entity)</xsl:when>
+          <xsl:when test="ends-with(../name(), 'anchor')">(Note)</xsl:when>
+          <xsl:otherwise>(?)</xsl:otherwise>
+        </xsl:choose>
+      </span>
+      <span class="body">
+        <xsl:call-template name="process-children" />
+      </span>
+    </span>
+  </xsl:template>
+
   <xsl:template match="tei:note//tei:p">
     <!-- we don't want block element within another block element -->
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
   <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
-    <span><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /><!-- a>
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  </xsl:template>
+
+  <!-- <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
+    <span><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /><a>
       <xsl:attribute name="href">
         <xsl:value-of select="concat('/entities/?q=', translate(@ref, ':', ':'))" />
       </xsl:attribute>
       <xsl:call-template name="process-children" />
-    </a --></span>
-  </xsl:template>
+    </a></span>
+  </xsl:template> -->
 
   <xsl:template match="tei:quote">
     <span>

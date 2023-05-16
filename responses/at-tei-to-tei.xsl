@@ -33,7 +33,7 @@
     </tei:anchor>
   </xsl:template>
 
-  <xsl:template match="(*[@type='person']|tei:persName|tei:geogName)[@ref]">
+  <xsl:template match="(*[@type='person']|tei:persName)[@ref]">
     <!-- 
       <rs ref="ppl:wt1" type="person">Husband</rs>
       
@@ -54,16 +54,16 @@
     -->
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
-      <tei:note type="entity"><xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/></tei:note>
       <xsl:apply-templates />
+      <tei:note type="entity"><xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/></tei:note>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="(*[@type='place']|tei:placeName)[@ref]">
+  <xsl:template match="(*[@type='place']|tei:placeName|tei:geogName)[@ref]">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
-      <tei:note type="entity"><xsl:value-of select="key('places', @ref, $places)/tei:placeName[@type='label']/text()"/></tei:note>
       <xsl:apply-templates />
+      <tei:note type="entity"><xsl:value-of select="key('places', @ref, $places)/tei:placeName[@type='label']/text()"/></tei:note>
     </xsl:copy>
   </xsl:template>
 
