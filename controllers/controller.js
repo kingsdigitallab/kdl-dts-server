@@ -7,6 +7,7 @@ const fs = require("fs");
 const path = require("path");
 const DOMParser = require("@xmldom/xmldom").DOMParser;
 const {execSync} = require('child_process')
+const dtsutils = require("kdl-dts-client")
 
 const transformToHTMLPath = `${__dirname}/../responses/tei-to-html.xsl`
 // const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
@@ -36,7 +37,27 @@ function readSettings() {
 
   return ret  
 }
+
 const settings = readSettings()
+
+async function downloadResources() {
+  // download resources
+  if (!settings?.areResourceDownloaded) {
+      let resources = settings?.resources || []
+      for (let r of resources)  {
+        await downloadResource(r)
+      }
+  
+    settings.areResourceDownloaded = true
+  }
+}
+
+async function downloadResource(uri) {
+  let content = await dtsutils.fetchContent(uri, 'txt')
+  let path = `${__dirname}/../responses/` + (uri.replace(/^.*\//, ''))
+  console.log(path)
+  fs.writeFileSync(path, content)
+}
 
 const XPath = require("xpath");
 const collectionRoot = settings.source;
@@ -309,6 +330,7 @@ async function getContentFromDocumentId(documentId) {
     ret = await corpus.readItemContent(documentId)
 
     if (settings.preTransformPath) {
+      downloadResources()
       ret = transformXML(ret, settings.preTransformPath)
     }
 

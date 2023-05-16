@@ -29,10 +29,12 @@
   </xsl:template>
 
   <xsl:template name="lossless-attributes">
+    <xsl:param name="class" select="''" />
     <xsl:attribute name="class">
       <xsl:value-of select="concat('tei-', local-name())"/>
       <xsl:if test="@type"> tei-type-<xsl:value-of select="@type"/></xsl:if>
       <xsl:if test="(count(text()) = 1) and (not(matches(text()[1], '[a-z]', 'i')))"> not-a-word</xsl:if>
+      <xsl:if test="$class"><xsl:value-of select="concat(' ', $class)"/></xsl:if>
     </xsl:attribute>
     <xsl:attribute name="data-tei"><xsl:value-of select="local-name()" /></xsl:attribute>
     <xsl:apply-templates select="@*" mode="data-tei" />
@@ -90,22 +92,6 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="tei:note//tei:p">
-    <!-- we don't want block element within another block element -->
-    <xsl:call-template name="lossless-span"/>
-  </xsl:template>
-
-  <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
-    <span><xsl:call-template name="lossless-attributes"/><a>
-      <xsl:attribute name="href">
-        <xsl:value-of select="concat('/entities/?q=', translate(@ref, ':', ':'))" />
-      </xsl:attribute>
-      <xsl:call-template name="process-children" />
-    </a></span>
-  </xsl:template>
- 
-  <!-- ############################# -->
-
   <xsl:template match="tei:docTitle">
     <h1 class="tei-docTitle"><xsl:call-template name="lossless-attributes-and-children" /></h1>
   </xsl:template>
@@ -124,6 +110,35 @@
 
   <xsl:template match="*[@rend='superscript']">
     <sup><xsl:call-template name="lossless-attributes-and-children" /></sup>
+  </xsl:template>
+
+  <!-- INTERACTIVE ############################# -->
+
+  <xsl:template match="tei:note//tei:p">
+    <!-- we don't want block element within another block element -->
+    <xsl:call-template name="lossless-span"/>
+  </xsl:template>
+
+  <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
+    <span><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /><!-- a>
+      <xsl:attribute name="href">
+        <xsl:value-of select="concat('/entities/?q=', translate(@ref, ':', ':'))" />
+      </xsl:attribute>
+      <xsl:call-template name="process-children" />
+    </a --></span>
+  </xsl:template>
+
+  <xsl:template match="tei:quote">
+    <span>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+      <xsl:call-template name="process-children" />
+      <span class="info-box">
+        <span class="banner">Biblical reference</span>
+        <span class="body">
+          <xsl:value-of select="normalize-space(replace(@source, '^#_|_', ' '))" />
+        </span>
+      </span>
+    </span>
   </xsl:template>
 
   <xsl:template match="tei:figure">
