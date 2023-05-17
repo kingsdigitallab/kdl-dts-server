@@ -330,7 +330,7 @@ async function getContentFromDocumentId(documentId) {
     ret = await corpus.readItemContent(documentId)
 
     if (settings.preTransformPath) {
-      downloadResources()
+      await downloadResources()
       ret = transformXML(ret, settings.preTransformPath)
     }
 
