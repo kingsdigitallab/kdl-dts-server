@@ -116,8 +116,16 @@
 
   <!-- INTERACTIVE ############################# -->
 
-  <xsl:template match="tei:anchor">
+  <!-- <xsl:template match="tei:anchor">
     <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  </xsl:template> -->
+
+  <xsl:template match="tei:anchor">
+    <span>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+      <sup class="note-symbol">[<xsl:number count="//tei:anchor" level="any" format="1"/>]</sup>
+      <xsl:call-template name="process-children" />
+    </span>
   </xsl:template>
 
   <xsl:template match="tei:note">
@@ -126,6 +134,8 @@
       <span class="banner">
         <!-- <xsl:value-of select="concat(upper-case(substring(../@type,1,1)),substring(../@type, 2),' ')" /> -->
         <xsl:choose>
+          <xsl:when test="../@type='oed_context'">Definition </xsl:when>
+          <xsl:when test="../@type='oed'">Definition </xsl:when>
           <xsl:when test="../@type='context'">Context </xsl:when>
           <xsl:when test="../@type='person'">Person </xsl:when>
           <xsl:when test="ends-with(../name(), 'persName')">Person </xsl:when>
@@ -169,7 +179,7 @@
       <span class="info-box">
         <span class="banner">Biblical reference</span>
         <span class="body">
-          <xsl:value-of select="normalize-space(replace(@source, '^#_|_', ' '))" />
+          <xsl:value-of select="normalize-space(replace(replace(@source, '^#_|_', ' '), '(\d)([a-z])', '$1 $2', 'i'))" />
         </span>
       </span>
     </span>

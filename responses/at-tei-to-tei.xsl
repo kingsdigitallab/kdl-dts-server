@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" 
-
+  xmlns="http://www.tei-c.org/ns/1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
 >
@@ -55,7 +55,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <tei:note type="entity"><xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/></tei:note>
+      <note type="entity"><xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/></note>
     </xsl:copy>
   </xsl:template>
 
@@ -63,7 +63,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <tei:note type="entity"><xsl:value-of select="key('places', @ref, $places)/tei:placeName[@type='label']/text()"/></tei:note>
+      <note type="entity"><xsl:value-of select="key('places', @ref, $places)/tei:placeName[@type='label']/text()"/></note>
     </xsl:copy>
   </xsl:template>
 
