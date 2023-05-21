@@ -8,6 +8,9 @@
   <!-- indent=yes would produce superfluous whitespaces in the ouput (e.g. choice, ...)  -->
   <xsl:output method="html" indent="no" />
 
+  <xsl:variable name="images" select="document('images.xml')"/>
+  <xsl:key name="images" match="IMAGE_PROPERTIES" use="@FILE"/> 
+
   <!-- GENERIC TRANSFORMS ############################### -->
 
   <xsl:template match="*">
@@ -190,9 +193,8 @@
       <a href="#" class="btn-figure">&#x1f4f7;</a>
       <figure class="tei-figure hidden" data-tei="figure">
         <figcaption><xsl:value-of select="tei:head/text()" /></figcaption>
-        <img src="/assets/img/books/viewer/{tei:graphic/@url}" data-src="{tei:graphic/@url}" alt="{tei:head/text()}">
-          <!-- xsl:attribute name=""><xsl:value-of select="." /></xsl:attribute -->
-        </img>
+        <xsl:variable name="image" select="key('images', tei:graphic/@url, $images)" />
+        <img src="/assets/img/books/viewer/zoomify/{replace(tei:graphic/@url, '\..+$', '')}/TileGroup0/0-0-0.jpg" data-src="{tei:graphic/@url}" alt="{tei:head/text()}" data-height="{$image/@HEIGHT}" data-width="{$image/@WIDTH}" ></img>
         <xsl:apply-templates select="tei:p" />
       </figure>
     </div>
