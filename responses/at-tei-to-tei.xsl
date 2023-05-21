@@ -37,6 +37,8 @@
     <!-- 
       <rs ref="ppl:wt1" type="person">Husband</rs>
       
+      <rs ref="ppl:cw1 ppl:aow1" n="per7" type="person">...
+      
       people.xml:
 
       <person xml:id="wt1">
@@ -55,7 +57,12 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity"><xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/></note>
+      <note type="entity">
+        <!-- <xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/> -->
+        <xsl:for-each select="tokenize(@ref, ' ')">
+          <p><xsl:value-of select="key('people', ., $people)/tei:persName[@type='label']/text()"/></p>
+        </xsl:for-each>
+      </note>
     </xsl:copy>
   </xsl:template>
 

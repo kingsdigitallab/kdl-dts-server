@@ -158,7 +158,7 @@
   </xsl:template>
 
   <xsl:template match="tei:note//tei:p">
-    <!-- we don't want block element within another block element -->
+    <!-- we don't want block element within another block element, browser would relocate them -->
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
