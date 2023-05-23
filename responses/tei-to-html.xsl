@@ -193,7 +193,8 @@
       <a href="#" class="btn-figure">&#x1f4f7;</a>
       <figure class="tei-figure hidden" data-tei="figure">
         <figcaption><xsl:value-of select="tei:head/text()" /></figcaption>
-        <xsl:variable name="image" select="key('images', tei:graphic/@url, $images)" />
+        <!-- graphic can use .jpg or .tif format, we normalise into tif here -->
+        <xsl:variable name="image" select="key('images', replace(tei:graphic/@url, '\.jpg$', '.tif'), $images)" />
         <img src="/assets/img/books/viewer/zoomify/{replace(tei:graphic/@url, '\..+$', '')}/TileGroup0/0-0-0.jpg" data-src="{tei:graphic/@url}" alt="{tei:head/text()}" data-height="{$image/@HEIGHT}" data-width="{$image/@WIDTH}" ></img>
         <xsl:apply-templates select="tei:p" />
       </figure>
