@@ -145,3 +145,5 @@ dist
 
 # AT
 .corpus
+# dynamically downloaded by server, needed for tei transforms
+/responses/*xml

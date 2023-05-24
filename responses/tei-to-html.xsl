@@ -123,10 +123,10 @@
     <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
   </xsl:template> -->
 
-  <xsl:template match="tei:anchor">
+  <xsl:template match="tei:anchor[@resp='ednote']">
     <span>
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
-      <sup class="note-symbol">[<xsl:number count="//tei:anchor" level="any" format="1"/>]</sup>
+      <sup class="note-symbol">[<xsl:number count="//tei:anchor[@resp='ednote']" level="any" format="1"/>]</sup>
       <xsl:call-template name="process-children" />
     </span>
   </xsl:template>
@@ -182,7 +182,11 @@
       <span class="info-box">
         <span class="banner">Biblical reference</span>
         <span class="body">
-          <xsl:value-of select="normalize-space(replace(replace(@source, '^#_|_', ' '), '(\d)([a-z])', '$1 $2', 'i'))" />
+          <xsl:for-each select="tokenize(@source, ' ')">
+            <span class="tei-p">
+            <xsl:value-of select="normalize-space(replace(replace(replace(., '^#|_', ' '), '(\d)([a-z])', '$1 $2', 'i'), '([a-z])(\d)', '$1 $2', 'i'))" />
+            </span>
+          </xsl:for-each>
         </span>
       </span>
     </span>

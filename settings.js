@@ -20,6 +20,6 @@ module.exports = {
     root: "/",
     collections: "/collections/",
     navigation: "/navigation/",
-    documents: "/documents/",
+    documents: "/documents/"
   },
 };

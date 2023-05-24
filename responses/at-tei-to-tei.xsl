@@ -18,7 +18,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="tei:anchor">
+  <xsl:template match="tei:anchor[@resp='ednote']">
     <!-- 
       <anchor corresp="#ednote-0001" type="context" resp="ednote"/> 
       [...]
@@ -33,7 +33,7 @@
     </tei:anchor>
   </xsl:template>
 
-  <xsl:template match="(*[@type='person']|tei:persName)[@ref]">
+  <xsl:template match="(*[@type='person']|*[@type='group']|tei:persName)[@ref]">
     <!-- 
       <rs ref="ppl:wt1" type="person">Husband</rs>
       
@@ -70,7 +70,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity"><xsl:value-of select="key('places', @ref, $places)/tei:placeName[@type='label']/text()"/></note>
+      <note type="entity"><xsl:value-of select="key('places', @ref, $places)/(tei:placeName|tei:geogName)[@type='label']/text()"/></note>
     </xsl:copy>
   </xsl:template>
 
