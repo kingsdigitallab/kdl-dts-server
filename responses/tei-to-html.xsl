@@ -119,6 +119,10 @@
 
   <!-- INTERACTIVE ############################# -->
 
+  <xsl:template match="tei:ref[@target]">
+    <a href="{@target}" target="_blank"><xsl:call-template name="lossless-attributes-and-children" /></a>
+  </xsl:template>
+
   <!-- <xsl:template match="tei:anchor">
     <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
   </xsl:template> -->
