@@ -200,13 +200,17 @@
     <div class="tei-figure-wrapper">
       <a href="#" class="btn-figure">&#x1f4f7;</a>
       <figure class="tei-figure hidden" data-tei="figure">
-        <figcaption><xsl:value-of select="tei:head/text()" /></figcaption>
+        <xsl:apply-templates select="tei:head" />
         <!-- graphic can use .jpg or .tif format, we normalise into tif here -->
         <xsl:variable name="image" select="key('images', replace(tei:graphic/@url, '\.jpg$', '.tif'), $images)" />
         <img src="/assets/img/books/viewer/zoomify/{replace(tei:graphic/@url, '\..+$', '')}/TileGroup0/0-0-0.jpg" data-src="{tei:graphic/@url}" alt="{tei:head/text()}" data-height="{$image/@HEIGHT}" data-width="{$image/@WIDTH}" ></img>
         <xsl:apply-templates select="tei:p" />
       </figure>
     </div>
+  </xsl:template>
+
+  <xsl:template match="tei:figure/tei:head">
+    <figcaption><xsl:call-template name="lossless-attributes-and-children" /></figcaption>
   </xsl:template>
 
 </xsl:stylesheet>
