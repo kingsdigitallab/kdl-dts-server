@@ -18,7 +18,11 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="tei:anchor[@resp='ednote']">
+  <xsl:template match="tei:anchor[@resp='ednote'][@type='exclude']" priority="20">
+    <!-- remove excluded notes, for internal editing purpose only  -->
+  </xsl:template>
+
+  <xsl:template match="tei:anchor[@resp='ednote']" priority="10">
     <!-- 
       <anchor corresp="#ednote-0001" type="context" resp="ednote"/> 
       [...]
