@@ -9,6 +9,8 @@ const DOMParser = require("@xmldom/xmldom").DOMParser;
 const {execSync} = require('child_process')
 const dtsutils = require("kdl-dts-client")
 
+const NODE_TYPE_ELEMENT_NODE = 1
+
 const transformToHTMLPath = `${__dirname}/../responses/tei-to-html.xsl`
 // const transformJsonPath = `${__dirname}/../responses/tei-to-html.sef.json`
 // Bad idea... it won't work when this package running from within node_modules
@@ -381,7 +383,9 @@ async function getXMLFromPageNumber(documentId, ref) {
         // console.log(`PB = ${parent.getAttribute("n")}`)
         while (parent.parentNode) {
           parent = parent.parentNode;
-          // console.log(`  ${parent.nodeName}`)
+          if (parent.nodeName == 'text') break;
+          if (parent.nodeType != NODE_TYPE_ELEMENT_NODE) continue;
+          // console.log(`  ${parent.nodeName} ${parent.nodeType}`)
           ancestors.push(parent);
         }
         edgesAncestors.push(ancestors);
@@ -399,7 +403,7 @@ async function getXMLFromPageNumber(documentId, ref) {
         for (let parent of edgesAncestors[i]) {
           if (parent == apb) continue;
           // ignore common ancestors
-          if (edgesAncestors[1 - i].indexOf(parent) > -1) continue;
+          if (0 && edgesAncestors[1 - i].indexOf(parent) > -1) continue;
           let parentStr = `<${closing}${parent.nodeName}>`;
           ancestorsStr += parentStr;
         }
