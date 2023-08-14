@@ -213,4 +213,11 @@
     <figcaption><xsl:call-template name="lossless-attributes-and-children" /></figcaption>
   </xsl:template>
 
+  <xsl:template match="tei:item[./tei:seg/@rend='braced(})']">
+    <span>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-braced-seg'"/></xsl:call-template>
+      <xsl:call-template name="process-children" />
+    </span>
+  </xsl:template>
+
 </xsl:stylesheet>
