@@ -4,7 +4,8 @@
   xmlns:html="http://www.w3.org/1999/xhtml" 
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:dts="https://w3id.org/dts/api#">
+  xmlns:dts="https://w3id.org/dts/api#"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- indent=yes would produce superfluous whitespaces in the ouput (e.g. choice, ...)  -->
   <xsl:output method="html" indent="no" />
 
@@ -226,24 +227,26 @@
   <!-- <space unit="line" quantity="3"/> -->
   <!-- TODO: chars -->
   <xsl:template match="(tei:space|tei:gap)[@unit='char' or @unit='word' or @unit='line' or @unit='page']">
+    <xsl:variable name="quantity_integer" select="xs:integer(ceiling(@quantity))" />
     <span>
       <xsl:call-template name="lossless-attributes" />
       <xsl:call-template name="process-children" />
       <span class="missing-content-message">
-        <xsl:if test="@quantity &gt; 1"><xsl:value-of select="@quantity" />&#160;</xsl:if>
+        <xsl:if test="$quantity_integer &gt; 1"><xsl:value-of select="$quantity_integer" />&#160;</xsl:if>
         <xsl:if test="@reason='damage'">damaged</xsl:if>
         <xsl:if test="@reason='deleted'">deleted</xsl:if>
+        <xsl:if test="@reason='obliterated'">obliterated</xsl:if>
         <xsl:if test="name()='space'">blank</xsl:if>
         <xsl:text>&#160;</xsl:text>
-        <xsl:value-of select="@unit" /><xsl:if test="@quantity &gt; 1">s</xsl:if>
+        <xsl:value-of select="@unit" /><xsl:if test="$quantity_integer &gt; 1">s</xsl:if>
       </span>
       <!-- and (@quantity &gt; 1 or not(following-sibling::node()[1][self::tei:lb])) -->
       <xsl:if test="@unit='line'">
-        <xsl:for-each select="1 to @quantity"><br class="missing-line"/></xsl:for-each>
+        <xsl:for-each select="1 to $quantity_integer"><br class="missing-line"/></xsl:for-each>
       </xsl:if>
       <xsl:if test="@unit='char'">
         <span class="missing-chars" title="illigible">
-          <xsl:for-each select="1 to @quantity">?</xsl:for-each>
+          <xsl:for-each select="1 to $quantity_integer">?</xsl:for-each>
         </span>
       </xsl:if>
     </span>
