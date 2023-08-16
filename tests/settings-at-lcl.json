@@ -1,0 +1,14 @@
+{
+  "source": "../alice-thornton/texts",
+  "baseUri": "https://github.com/kingsdigitallab/alice-thornton/tree/dts/",
+  "rootCollection": {
+    "slug": "thornton-books",
+    "title": "Alice Thornton's books"
+  },
+  "preTransformPath": "../responses/at-tei-to-tei.xsl",
+  "resources": [
+    "https://raw.githubusercontent.com/kingsdigitallab/alice-thornton/develop/frontend/assets/img/books/viewer/zoomify/images.xml",
+    "https://raw.githubusercontent.com/kingsdigitallab/alice-thornton/edition/entities/people.xml",
+    "https://raw.githubusercontent.com/kingsdigitallab/alice-thornton/edition/entities/places.xml"
+  ]
+}

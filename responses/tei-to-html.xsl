@@ -72,6 +72,9 @@
   <xsl:template match="tei:teiHeader">
   </xsl:template>
 
+  <xsl:template match="tei:lb[preceding-sibling::*[1][self::tei:gap][@unit='line']]">
+  </xsl:template>
+
   <!-- OTHERS ############################### -->
 
   <xsl:template match="tei:lb">
@@ -217,6 +220,32 @@
     <span>
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-braced-seg'"/></xsl:call-template>
       <xsl:call-template name="process-children" />
+    </span>
+  </xsl:template>
+
+  <!-- <space unit="line" quantity="3"/> -->
+  <!-- TODO: chars -->
+  <xsl:template match="(tei:space|tei:gap)[@unit='char' or @unit='word' or @unit='line' or @unit='page']">
+    <span>
+      <xsl:call-template name="lossless-attributes" />
+      <xsl:call-template name="process-children" />
+      <span class="missing-content-message">
+        <xsl:if test="@quantity &gt; 1"><xsl:value-of select="@quantity" />&#160;</xsl:if>
+        <xsl:if test="@reason='damage'">damaged</xsl:if>
+        <xsl:if test="@reason='deleted'">deleted</xsl:if>
+        <xsl:if test="name()='space'">blank</xsl:if>
+        <xsl:text>&#160;</xsl:text>
+        <xsl:value-of select="@unit" /><xsl:if test="@quantity &gt; 1">s</xsl:if>
+      </span>
+      <!-- and (@quantity &gt; 1 or not(following-sibling::node()[1][self::tei:lb])) -->
+      <xsl:if test="@unit='line'">
+        <xsl:for-each select="1 to @quantity"><br class="missing-line"/></xsl:for-each>
+      </xsl:if>
+      <xsl:if test="@unit='char'">
+        <span class="missing-chars" title="illigible">
+          <xsl:for-each select="1 to @quantity">?</xsl:for-each>
+        </span>
+      </xsl:if>
     </span>
   </xsl:template>
 

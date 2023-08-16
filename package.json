@@ -7,7 +7,8 @@
     "test": "mocha -b ./tests/*.test.js",
     "start": "nodemon ./bin/server.js",
     "xslt": "npx xslt3 -xsl:responses/tei-to-html.xsl -export:responses/tei-to-html.sef.json -t -ns:##html5 -nogo",
-    "start:at": "nodemon ./bin/server.js tests/settings-at.json"
+    "start:at": "nodemon ./bin/server.js tests/settings-at.json",
+    "start:at-lcl": "nodemon ./bin/server.js tests/settings-at-lcl.json"
   },
   "bin": {
     "kdl-dts-server": "./bin/server.js"
