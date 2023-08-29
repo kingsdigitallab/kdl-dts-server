@@ -147,3 +147,6 @@ dist
 .corpus
 # dynamically downloaded by server, needed for tei transforms
 /responses/*xml
+
+*.sef.json
+
