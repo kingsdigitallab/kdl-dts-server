@@ -10,6 +10,9 @@
   <xsl:variable name="places" select="document('places.xml')"/>
   <xsl:key name="places" match="//tei:place" use="concat('place:', @xml:id)"/> 
 
+  <xsl:variable name="glosses" select="document('glossary.xml')"/>
+  <xsl:key name="glosses" match="//tei:item" use="concat('gloss:', @xml:id)"/> 
+
   <xsl:key name="notes" match="//tei:listAnnotation/tei:note" use="concat('#', @xml:id)"/> 
 
   <xsl:template match="@*|node()">
@@ -75,6 +78,28 @@
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
       <note type="entity"><xsl:value-of select="key('places', @ref, $places)/(tei:placeName|tei:geogName)[@type='label']/text()"/></note>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="tei:term[@ref]">
+    <!-- 
+      <term ref="gloss:p019t01" xml:id="p019t01">quality</term> 
+      
+      ===
+      
+      glossary.xml:
+
+      <list xml:id="book-of-remembrances" type="gloss"> 
+        <item xml:id="p019t01"> 
+          <gloss> Quality: ‘rank in society’, <hi rend="italic">OEDO. </hi> 
+          </gloss> 
+          <note type="tagged_text">quality</note> 
+        </item> 
+    -->
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates />
+      <note type="entity"><xsl:apply-templates select="key('glosses', @ref, $glosses)/tei:gloss"/></note>
     </xsl:copy>
   </xsl:template>
 

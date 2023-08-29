@@ -152,8 +152,10 @@
           <xsl:when test="ends-with(../name(), 'persName')">Person </xsl:when>
           <xsl:when test="ends-with(../name(), 'placeName')">Place </xsl:when>
           <xsl:when test="ends-with(../name(), 'geogName')">Place </xsl:when>
+          <xsl:when test="ends-with(../name(), 'term')">Gloss </xsl:when>
         </xsl:choose>
         <xsl:choose>
+          <xsl:when test="ends-with(../name(), 'term')"></xsl:when>
           <xsl:when test="@type='entity'">(Entity)</xsl:when>
           <xsl:when test="ends-with(../name(), 'anchor')">(Note)</xsl:when>
           <xsl:otherwise>(?)</xsl:otherwise>
@@ -170,7 +172,7 @@
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
-  <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
+  <xsl:template match="(tei:term|tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
     <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
   </xsl:template>
 
