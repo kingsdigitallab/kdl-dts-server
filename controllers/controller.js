@@ -318,11 +318,14 @@ function getFileModifiedTime(path) {
 async function getPagesFromDocument(documentId) {
   let ret = [];
   let content = await getContentFromDocumentId(documentId);
-  let regex = RegExp('<pb [^>]*n="(\\d+)"\\s*/>', "sg");
-  let matches = content.matchAll(regex);
-  for (let match of matches) {
-    ret.push(match[1]);
-  }
+  // let regex = RegExp('<pb [^>]*n="(\\d+)"\\s*/>', "sg");
+  // let matches = content.matchAll(regex);
+  // for (let match of matches) {
+  //   ret.push(match[1]);
+  // }
+  ret = Object.keys(cache.lastRead.pbs)
+  // last page number is 10000, a virtual number at the end of the text
+  ret.pop()
   return ret;
 }
 
@@ -335,6 +338,8 @@ async function getContentFromDocumentId(documentId) {
       await downloadResources()
       ret = transformXML(ret, settings.preTransformPath)
     }
+
+    ret = ret.replace(/(<\/text>)/, `<pb n="10000"/>$1`)
 
     cache.lastRead = {
       documentId: documentId,
@@ -365,13 +370,14 @@ async function getXMLFromPageNumber(documentId, ref) {
   if (pageNumber) {
     let pn = pageNumber[1]; //.padStart(3, '0')
     let content = await getContentFromDocumentId(documentId);
-    let pnNext = "" + (parseInt(pn, 10) + 1);
-    // console.log(pnNext)
+
+    // let pnNext = "" + (parseInt(pn, 10) + 1);
+    let pageNumbers = Object.keys(cache.lastRead.pbs)
+    let pnIndex = pageNumbers.indexOf(pn)
+    let pnNext = pageNumbers[pnIndex+1]
 
     let pb = cache.lastRead.pbs[pn];
-    // TODO: find next pb, don't assume it's n+1
-    // TODO: corner case: pb is the last in the doc
-    let pbNext = cache.lastRead.pbs[pnNext];
+    let pbNext = (pnIndex > -1) ? cache.lastRead.pbs[pnNext] : null;
 
     // PART 1: get non-common ancestors of each edge
     let edgesAncestors = [];
