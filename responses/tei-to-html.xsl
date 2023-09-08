@@ -117,9 +117,9 @@
     <del><xsl:call-template name="lossless-attributes-and-children" /></del>
   </xsl:template>
 
-  <xsl:template match="*[@rend='superscript']">
+  <!-- <xsl:template match="*[@rend='superscript']">
     <sup><xsl:call-template name="lossless-attributes-and-children" /></sup>
-  </xsl:template>
+  </xsl:template> -->
 
   <!-- INTERACTIVE ############################# -->
 
