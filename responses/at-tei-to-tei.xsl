@@ -15,6 +15,9 @@
 
   <xsl:key name="notes" match="//tei:listAnnotation/tei:note" use="concat('#', @xml:id)"/> 
 
+  <xsl:key name="glyphs" match="//tei:glyph[tei:desc]" use="concat('#', @xml:id)"/> 
+
+
   <xsl:template match="@*|node()">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
@@ -100,6 +103,27 @@
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
       <note type="entity"><xsl:apply-templates select="key('glosses', @ref, $glosses)/tei:gloss"/></note>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="tei:g[@ref]">
+    <!-- 
+      <charDecl>
+        <glyph xml:id="heart">
+          <desc>Thornton frequently uses the heart symbol instead of the word 'heart' in her books. See <ref target="https://thornton.kdl.kcl.ac.uk/posts/blog/2023-02-13-AliceThorntonsHeart-Blog/">Cordelia Beattie and Suzanne Trill, ‘Alice Thornton’s Heart: An Early Modern Emoji’, <hi rend="italic">Alice Thornton’s Books</hi>, 17 March 2023</ref></desc>
+        </glyph>
+
+      [...]
+
+      <g ref="#heart">♥</g> <lb/>
+    -->
+    <xsl:variable name="desc" select="key('glyphs', @ref)/tei:desc" />
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates />
+      <xsl:if test="$desc">
+        <note type="entity"><xsl:apply-templates select="$desc"/></note>
+      </xsl:if>
     </xsl:copy>
   </xsl:template>
 
