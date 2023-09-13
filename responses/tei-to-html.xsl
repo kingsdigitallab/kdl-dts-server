@@ -235,12 +235,16 @@
       <xsl:call-template name="process-children" />
       <span class="missing-content-message">
         <xsl:if test="$quantity_integer &gt; 1"><xsl:value-of select="$quantity_integer" />&#160;</xsl:if>
-        <xsl:if test="@reason='damage'">damaged</xsl:if>
-        <xsl:if test="@reason='deleted'">deleted</xsl:if>
-        <xsl:if test="@reason='obliterated'">obliterated</xsl:if>
-        <xsl:if test="name()='space'">blank</xsl:if>
-        <xsl:text>&#160;</xsl:text>
-        <xsl:value-of select="@unit" /><xsl:if test="$quantity_integer &gt; 1">s</xsl:if>
+        <xsl:choose>
+          <xsl:when test="../@agent='excised'">excised</xsl:when>
+          <xsl:when test="contains(@reason, 'deleted')">deleted</xsl:when>
+          <xsl:when test="contains(@reason, 'obliterated')">obliterated</xsl:when>
+          <xsl:when test="@reason='damage'">damaged</xsl:when>
+          <xsl:when test="name()='space'">blank</xsl:when>
+          <xsl:otherwise>missing</xsl:otherwise>
+        </xsl:choose>
+          <xsl:text>&#160;</xsl:text>
+          <xsl:value-of select="@unit" /><xsl:if test="$quantity_integer &gt; 1">s</xsl:if>
       </span>
       <!-- and (@quantity &gt; 1 or not(following-sibling::node()[1][self::tei:lb])) -->
       <xsl:if test="@unit='line'">
