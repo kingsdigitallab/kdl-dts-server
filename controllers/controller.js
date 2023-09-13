@@ -426,7 +426,7 @@ async function getXMLFromPageNumber(documentId, ref) {
 
     // PART 2: crop the XML with a regexp betwen the two edges
     let regex = RegExp(
-      `<pb [^>]*n="${pn}"\\s*/>(.*)<pb [^>]*n="${pnNext}"`,
+      `<pb [^>]*n="${pn}"[^/>]*/>(.*)<pb [^>]*n="${pnNext}"`,
       "s"
     );
     let m = content.match(regex);
