@@ -1,4 +1,4 @@
-<xsl:stylesheet version="1.0" 
+<xsl:stylesheet version="2.0" 
   xmlns="http://www.tei-c.org/ns/1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:tei="http://www.tei-c.org/ns/1.0" 
@@ -10,7 +10,7 @@
   <xsl:variable name="places" select="document('places.xml')"/>
   <xsl:key name="places" match="//tei:place" use="concat('place:', @xml:id)"/> 
 
-  <xsl:variable name="glosses" select="document('glossary.xml')"/>
+  <xsl:variable name="glosses" select="document(tokenize('glossary.xml;glossary_book_one.xml;glossary_book_two.xml', ';'))"/>
   <xsl:key name="glosses" match="//tei:item" use="concat('gloss:', @xml:id)"/> 
 
   <xsl:key name="notes" match="//tei:listAnnotation/tei:note" use="concat('#', @xml:id)"/> 
@@ -102,7 +102,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity"><xsl:apply-templates select="key('glosses', @ref, $glosses)/tei:gloss"/></note>
+      <note type="entity"><xsl:apply-templates select="$glosses/key('glosses', current()/@ref)/tei:gloss"/></note>
     </xsl:copy>
   </xsl:template>
 
