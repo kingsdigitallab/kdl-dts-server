@@ -161,7 +161,7 @@
           <xsl:when test="ends-with(../name(), 'term')"></xsl:when>
           <xsl:when test="../name() = 'g'"></xsl:when>
           <xsl:when test="@type='entity'">(Entity)</xsl:when>
-          <xsl:when test="ends-with(../name(), 'anchor')">(Note)</xsl:when>
+          <xsl:when test="ends-with(../name(), 'anchor')">Note</xsl:when>
           <xsl:otherwise>(?)</xsl:otherwise>
         </xsl:choose>
       </span>
