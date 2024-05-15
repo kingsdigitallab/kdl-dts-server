@@ -10,7 +10,7 @@
   <xsl:variable name="places" select="document('places.xml')"/>
   <xsl:key name="places" match="//tei:place" use="concat('place:', @xml:id)"/> 
 
-  <xsl:variable name="glosses" select="document(tokenize('glossary.xml;glossary_book_one.xml;glossary_book_two.xml', ';'))"/>
+  <xsl:variable name="glosses" select="document(tokenize('glossary.xml;glossary_book_one.xml;glossary_book_two.xml;glossary_book_three.xml', ';'))"/>
   <xsl:key name="glosses" match="//tei:item" use="concat('gloss:', @xml:id)"/> 
 
   <xsl:key name="notes" match="//tei:listAnnotation/tei:note" use="concat('#', @xml:id)"/> 
