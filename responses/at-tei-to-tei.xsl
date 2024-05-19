@@ -19,6 +19,10 @@
 
 
   <xsl:template match="@*|node()">
+    <xsl:call-template name="copy-element" />
+  </xsl:template>
+
+  <xsl:template name="copy-element">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
@@ -30,9 +34,13 @@
 
   <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]">
     <div type="merged-modern-paras">
-      <xsl:copy-of select="." />
-      <xsl:copy-of select="./following-sibling::tei:p[1]" />
+      <xsl:call-template name="copy-element" />
+      <xsl:apply-templates select="./following-sibling::tei:p[1]" mode="copy-element" />
     </div>
+  </xsl:template>
+
+  <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]/following-sibling::tei:p[1]" mode="copy-element">
+    <xsl:call-template name="copy-element" />
   </xsl:template>
 
   <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]/following-sibling::tei:p[1]">
@@ -97,18 +105,16 @@
 
   <xsl:template match="tei:term[@ref]">
     <!-- 
-      <term ref="gloss:p019t01" xml:id="p019t01">quality</term> 
+      <term ref="gloss:p100t03" xml:id="p100t04"><w norm="temporals">Temporalls</w></term> 
       
       ===
       
       glossary.xml:
 
-      <list xml:id="book-of-remembrances" type="gloss"> 
-        <item xml:id="p019t01"> 
-          <gloss> Quality: ‘rank in society’, <hi rend="italic">OEDO. </hi> 
-          </gloss> 
-          <note type="tagged_text">quality</note> 
-        </item> 
+      <item xml:id="p100t03">
+          <gloss> Temporal: ‘secular as opposed to sacred,’ <hi rend="italic">OEDO.</hi>
+          </gloss>
+      </item>
     -->
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
