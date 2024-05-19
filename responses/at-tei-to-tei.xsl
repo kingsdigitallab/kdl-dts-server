@@ -28,6 +28,17 @@
     <!-- remove excluded notes, for internal editing purpose only  -->
   </xsl:template>
 
+  <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]">
+    <div type="merged-modern-paras">
+      <xsl:copy-of select="." />
+      <xsl:copy-of select="./following-sibling::tei:p[1]" />
+    </div>
+  </xsl:template>
+
+  <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]/following-sibling::tei:p[1]">
+    <!-- Already copied above -->
+  </xsl:template>
+
   <xsl:template match="tei:anchor[@resp='ednote']" priority="10">
     <!-- 
       <anchor corresp="#ednote-0001" type="context" resp="ednote"/> 
