@@ -56,10 +56,10 @@
           <p> Thornton is [...]] </p>
         </note>
     -->
-    <tei:anchor>
+    <anchor>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="key('notes', @corresp)"/>
-    </tei:anchor>
+    </anchor>
   </xsl:template>
 
   <xsl:template match="(*[@type='person']|*[@type='group']|tei:persName)[@ref]">
