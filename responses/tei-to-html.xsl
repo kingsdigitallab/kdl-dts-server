@@ -171,6 +171,14 @@
     </span>
   </xsl:template>
 
+  <xsl:template match="tei:note//tei:p[@ref]" priority="10">
+    <a>
+      <xsl:attribute name="href">/entities/?hi=<xsl:value-of select="@ref"/></xsl:attribute>
+      <!-- we don't want block element within another block element, browser would relocate them -->
+      <xsl:call-template name="lossless-span"/>
+    </a>
+  </xsl:template>
+
   <xsl:template match="tei:note//tei:p">
     <!-- we don't want block element within another block element, browser would relocate them -->
     <xsl:call-template name="lossless-span"/>

@@ -89,7 +89,10 @@
       <note type="entity">
         <!-- <xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/> -->
         <xsl:for-each select="tokenize(@ref, ' ')">
-          <p><xsl:value-of select="key('people', ., $people)/tei:persName[@type='label']/text()"/></p>
+          <p>
+            <xsl:attribute name="ref"><xsl:value-of select="."/></xsl:attribute>
+            <xsl:value-of select="key('people', ., $people)/tei:persName[@type='label']/text()"/>
+          </p>
         </xsl:for-each>
       </note>
     </xsl:copy>
