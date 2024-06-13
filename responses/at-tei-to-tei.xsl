@@ -102,7 +102,12 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity"><xsl:value-of select="key('places', @ref, $places)/(tei:placeName|tei:geogName)[@type='label']/text()"/></note>
+      <note type="entity">
+        <p>
+          <xsl:attribute name="ref"><xsl:value-of select="@ref"/></xsl:attribute>
+          <xsl:value-of select="key('places', @ref, $places)/(tei:placeName|tei:geogName)[@type='label']/text()"/>
+        </p>
+      </note>
     </xsl:copy>
   </xsl:template>
 
