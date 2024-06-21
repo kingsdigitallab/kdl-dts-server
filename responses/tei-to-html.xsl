@@ -151,6 +151,7 @@
           <xsl:when test="../@type='oed'">Definition </xsl:when>
           <xsl:when test="../@type='context'">Context </xsl:when>
           <xsl:when test="../@type='person'">Person </xsl:when>
+          <xsl:when test="../@type='geog'">Place </xsl:when>
           <xsl:when test="../name() = 'g'">Symbol </xsl:when>
           <xsl:when test="ends-with(../name(), 'persName')">Person </xsl:when>
           <xsl:when test="ends-with(../name(), 'placeName')">Place </xsl:when>

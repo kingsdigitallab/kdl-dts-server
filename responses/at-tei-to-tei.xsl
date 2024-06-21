@@ -98,7 +98,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="(*[@type='place']|tei:placeName|tei:geogName)[@ref]">
+  <xsl:template match="(*[@type='place']|*[@type='geog']|tei:placeName|tei:geogName)[@ref]">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
