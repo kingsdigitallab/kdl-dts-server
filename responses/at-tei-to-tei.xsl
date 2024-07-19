@@ -10,6 +10,9 @@
   <xsl:variable name="places" select="document('places.xml')"/>
   <xsl:key name="places" match="//tei:place" use="concat('place:', @xml:id)"/> 
 
+  <xsl:variable name="events" select="document('events.xml')"/>
+  <xsl:key name="events" match="//tei:ptr" use="@target"/> 
+
   <xsl:variable name="glosses" select="document(tokenize('glossary.xml;glossary_book_one.xml;glossary_book_two.xml;glossary_book_three.xml', ';'))"/>
   <xsl:key name="glosses" match="//tei:item" use="concat('gloss:', @xml:id)"/> 
 
@@ -149,6 +152,54 @@
       <xsl:if test="$desc">
         <note type="entity"><xsl:apply-templates select="$desc"/></note>
       </xsl:if>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="(tei:milestone[@unit='event']|tei:anchor[@type='event'])">
+    <!-- 
+      book_of_remembrances.xml:
+
+      <milestone spanTo="#ev10-end" xml:id="ev10-start" n="ev10" unit="event"/>
+
+      <anchor xml:id="ev10-end" n="ev10" type="event"/>
+      
+      ===
+      
+      event.xml:
+
+      <event xml:id="aow1_1639_illness" type="sgl" when-custom="1639-04">
+        <desc>Thornton and Alice Wandesford went to England for her mother to be treated for 'the stone'</desc>
+        <label>illness/medical</label>
+        <linkGrp type="sgl">
+          <ptr target="bookrem:ev10" type="book" subtype="bookrem"/>
+          <ptr target="book1:ev11" type="book" subtype="book1"/>
+        </linkGrp>
+      </event>
+    -->
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates />
+      <span>
+        <xsl:choose>
+          <xsl:when test="name() = 'milestone'">[EVENT: </xsl:when>
+          <xsl:when test="name() = 'anchor'"> :EVENT]</xsl:when>
+        </xsl:choose>
+      </span>
+      <xsl:variable name="bookkey">
+        <xsl:choose>
+          <xsl:when test="/tei:TEI/@xml:id = 'atb-book-of-remembrances'">bookrem:</xsl:when>
+          <xsl:when test="/tei:TEI/@xml:id = 'atb-book-one'">book1:</xsl:when>
+          <xsl:when test="/tei:TEI/@xml:id = 'atb-book-two'">book2:</xsl:when>
+          <xsl:when test="/tei:TEI/@xml:id = 'atb-book-three'">book3:</xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="event" select="$events/key('events', concat($bookkey, current()/@n))/../.."/>
+      <note type="event">
+        <p>
+          <xsl:attribute name="ref"><xsl:value-of select="$event/@xml:id"/></xsl:attribute>
+          <xsl:apply-templates select="$event/tei:desc"/>
+        </p>
+      </note>
     </xsl:copy>
   </xsl:template>
 

@@ -221,7 +221,7 @@
 
   <xsl:template match="tei:figure">
     <div class="tei-figure-wrapper">
-      <a href="#" class="btn-figure">&#x1f4f7;</a>
+      <a href="#" class="btn-figure"><i class="fas fa-image"></i><span class="is-sr-only">Photograph of the manuscript page</span></a>
       <figure class="tei-figure hidden" data-tei="figure">
         <xsl:apply-templates select="tei:head" />
         <!-- graphic can use .jpg or .tif format, we normalise into tif here -->
@@ -274,5 +274,17 @@
       </xsl:if>
     </span>
   </xsl:template>
+
+  <!-- EVENTS -->
+
+  <xsl:template match="tei:milestone[@unit='event']">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'event event-start has-info-box'"/></xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="tei:anchor[@type='event']">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'event event-end has-info-box'"/></xsl:call-template>
+  </xsl:template>
+
+  <!-- ============================================ -->
 
 </xsl:stylesheet>
