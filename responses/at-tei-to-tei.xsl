@@ -35,20 +35,38 @@
     <!-- remove excluded notes, for internal editing purpose only  -->
   </xsl:template>
 
+  <!-- ===============================
+  append-following-sibling
+  Will be merged with the following <p> inside a <div> in the modernised rendering.
+  Note that append-following-sibling can appear on consecutive <p>s
+  to merge multiple paras together.
+  This is why the templates below can work recursively.
+  -->
   <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]">
+    <!-- First p with rend="append-following-sibling", wrap up in a div -->
     <div type="merged-modern-paras">
-      <xsl:call-template name="copy-element" />
-      <xsl:apply-templates select="./following-sibling::tei:p[1]" mode="copy-element" />
+      <!-- re-process as ith p with rend="append-following-sibling" -->
+      <xsl:apply-templates select="." mode="copy-element" />
     </div>
   </xsl:template>
 
+  <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]" mode="copy-element" priority="5">
+    <!-- ith p with rend="append-following-sibling" -->
+    <xsl:call-template name="copy-element" />
+    <!-- Recusive part, this may be the terminal p (without @rend) or the i+1th with @rend -->
+    <xsl:apply-templates select="./following-sibling::tei:p[1]" mode="copy-element" />
+  </xsl:template>
+
   <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]/following-sibling::tei:p[1]" mode="copy-element">
+    <!-- terminal p without @rend -->
     <xsl:call-template name="copy-element" />
   </xsl:template>
 
   <xsl:template match="tei:p[contains(@rend, 'append-following-sibling')]/following-sibling::tei:p[1]">
-    <!-- Already copied above -->
+    <!-- terminal p without @rend, already copied above, inside the div -->
   </xsl:template>
+  
+  <!-- =============================== -->
 
   <xsl:template match="tei:anchor[@resp='ednote']" priority="10">
     <!-- 
@@ -59,10 +77,10 @@
           <p> Thornton is [...]] </p>
         </note>
     -->
-    <anchor>
+    <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="key('notes', @corresp)"/>
-    </anchor>
+    </xsl:copy>
   </xsl:template>
 
   <xsl:template match="(*[@type='person']|*[@type='group']|tei:persName)[@ref]">
@@ -89,7 +107,8 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity">
+      <note type="person">
+      <!-- <note type="entity"> -->
         <!-- <xsl:value-of select="key('people', @ref, $people)/tei:persName[@type='label']/text()"/> -->
         <xsl:for-each select="tokenize(@ref, ' ')">
           <p>
@@ -105,7 +124,8 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity">
+      <note type="place">
+      <!-- <note type="entity"> -->
         <p>
           <xsl:attribute name="ref"><xsl:value-of select="@ref"/></xsl:attribute>
           <xsl:value-of select="key('places', @ref, $places)/(tei:placeName|tei:geogName)[@type='label']/text()"/>
@@ -130,12 +150,15 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <note type="entity"><xsl:apply-templates select="$glosses/key('glosses', current()/@ref)/tei:gloss"/></note>
+      <note type="term"><xsl:apply-templates select="$glosses/key('glosses', current()/@ref)/tei:gloss"/></note>
+      <!-- <note type="entity"><xsl:apply-templates select="$glosses/key('glosses', current()/@ref)/tei:gloss"/></note> -->
     </xsl:copy>
   </xsl:template>
 
   <xsl:template match="tei:g[@ref]">
     <!-- 
+      TODO: not needed? note seems to have been moved editorial note following glyph 
+
       <charDecl>
         <glyph xml:id="heart">
           <desc>Thornton frequently uses the heart symbol instead of the word 'heart' in her books. See <ref target="https://thornton.kdl.kcl.ac.uk/posts/blog/2023-02-13-AliceThorntonsHeart-Blog/">Cordelia Beattie and Suzanne Trill, ‘Alice Thornton’s Heart: An Early Modern Emoji’, <hi rend="italic">Alice Thornton’s Books</hi>, 17 March 2023</ref></desc>
@@ -150,7 +173,8 @@
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
       <xsl:if test="$desc">
-        <note type="entity"><xsl:apply-templates select="$desc"/></note>
+        <!-- <note type="entity"><xsl:apply-templates select="$desc"/></note> -->
+        <note type="glyph"><xsl:apply-templates select="$desc"/></note>
       </xsl:if>
     </xsl:copy>
   </xsl:template>
@@ -181,8 +205,8 @@
       <xsl:apply-templates />
       <span>
         <xsl:choose>
-          <xsl:when test="name() = 'milestone'">[EVENT: </xsl:when>
-          <xsl:when test="name() = 'anchor'"> :EVENT]</xsl:when>
+          <xsl:when test="name() = 'milestone'">⧔</xsl:when>
+          <xsl:when test="name() = 'anchor'">⧕</xsl:when>
         </xsl:choose>
       </span>
       <xsl:variable name="bookkey">

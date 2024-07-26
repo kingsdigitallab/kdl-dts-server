@@ -333,6 +333,7 @@ async function getContentFromDocumentId(documentId) {
   let ret = cache.lastRead.content;
   if (!ret || cache.lastRead.documentId != documentId) {
     ret = await corpus.readItemContent(documentId)
+    // ret = fs.readFileSync('/home/jeff/src/prj/tmp/alice-thornton/texts/00_book_of_remembrances/book_of_remembrances.xml', {encoding:'utf8', flag:'r'})
 
     if (settings.preTransformPath) {
       await downloadResources()

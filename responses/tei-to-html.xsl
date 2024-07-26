@@ -133,20 +133,23 @@
     <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
   </xsl:template> -->
 
-  <xsl:template match="tei:anchor[@resp='ednote']">
-    <span>
-      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
-      <sup class="note-symbol">[<xsl:number count="//tei:anchor[@resp='ednote']" level="any" format="1"/>]</sup>
-      <xsl:call-template name="process-children" />
-    </span>
-  </xsl:template>
-
   <xsl:template match="tei:note">
     <span>
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'info-box'"/></xsl:call-template>
       <span class="banner">
-        <!-- <xsl:value-of select="concat(upper-case(substring(../@type,1,1)),substring(../@type, 2),' ')" /> -->
         <xsl:choose>
+          <xsl:when test="../@resp='ednote'">Note </xsl:when>
+          <xsl:when test="../@type='context'">Context </xsl:when>
+          <xsl:when test="@type='event'">Event </xsl:when>
+          <xsl:when test="../@type='oed'">Definition </xsl:when>
+          <xsl:when test="@type='term'">Definition </xsl:when>
+          <xsl:when test="@type='person'">Person </xsl:when>
+          <xsl:when test="@type='place'">Place </xsl:when>
+          <xsl:when test="@type='glyph'">Symbol </xsl:when>
+          <!-- <xsl:when test="../@type='geog'">Place </xsl:when> -->
+          <xsl:otherwise>(?)</xsl:otherwise>
+        </xsl:choose>
+        <!-- <xsl:choose>
           <xsl:when test="../@type='oed_context'">Definition </xsl:when>
           <xsl:when test="../@type='oed'">Definition </xsl:when>
           <xsl:when test="../@type='context'">Context </xsl:when>
@@ -159,12 +162,13 @@
           <xsl:when test="ends-with(../name(), 'term')">Gloss </xsl:when>
         </xsl:choose>
         <xsl:choose>
+          <xsl:comment>LEAVE those empty cases in, they prevent the display of others down the list</xsl:comment>
           <xsl:when test="ends-with(../name(), 'term')"></xsl:when>
           <xsl:when test="../name() = 'g'"></xsl:when>
           <xsl:when test="@type='entity'">(Entity)</xsl:when>
           <xsl:when test="ends-with(../name(), 'anchor')">Note</xsl:when>
           <xsl:otherwise>(?)</xsl:otherwise>
-        </xsl:choose>
+        </xsl:choose> -->
       </span>
       <span class="body">
         <xsl:call-template name="process-children" />
@@ -185,26 +189,25 @@
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
-  <xsl:template match="(tei:term|tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
-    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  <!-- INFO BOX (entities, events, notes, ...) -->
+
+  <xsl:template match="*[tei:note[@type='entity' or @type='glyph' or @type='term' or @type='person' or @type='place']]" priority="2">
+    <xsl:call-template name="lossless-span">
+      <xsl:with-param name="class" select="concat('has-info-box is-', ./tei:note/@type)"/>
+    </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="tei:g[@ref]">
-    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
-  </xsl:template>
-
-  <!-- <xsl:template match="(tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
-    <span><xsl:call-template name="lossless-attributes"/><xsl:call-template name="process-children" /><a>
-      <xsl:attribute name="href">
-        <xsl:value-of select="concat('/entities/?q=', translate(@ref, ':', ':'))" />
-      </xsl:attribute>
+  <xsl:template match="tei:anchor[@resp='ednote']" priority="4">
+    <span>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box is-note'"/></xsl:call-template>
+      <sup class="note-symbol">[<xsl:number count="//tei:anchor[@resp='ednote']" level="any" format="1"/>]</sup>
       <xsl:call-template name="process-children" />
-    </a></span>
-  </xsl:template> -->
+    </span>
+  </xsl:template>
 
   <xsl:template match="tei:quote">
     <span>
-      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+      <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box is-quote'"/></xsl:call-template>
       <xsl:call-template name="process-children" />
       <span class="info-box">
         <span class="banner">Biblical reference</span>
@@ -218,6 +221,24 @@
       </span>
     </span>
   </xsl:template>
+
+  <!-- <xsl:template match="(tei:term|tei:geogName|tei:placeName|tei:rs|tei:persName)[@ref]">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="tei:g[@ref]">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box'"/></xsl:call-template>
+  </xsl:template> -->
+
+  <xsl:template match="tei:milestone[@unit='event']" priority="4">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box is-event event-start'"/></xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="tei:anchor[@type='event']" priority="4">
+    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'has-info-box is-event event-end'"/></xsl:call-template>
+  </xsl:template>
+
+  <!-- =============================== -->
 
   <xsl:template match="tei:figure">
     <div class="tei-figure-wrapper">
@@ -274,17 +295,5 @@
       </xsl:if>
     </span>
   </xsl:template>
-
-  <!-- EVENTS -->
-
-  <xsl:template match="tei:milestone[@unit='event']">
-    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'event event-start has-info-box'"/></xsl:call-template>
-  </xsl:template>
-
-  <xsl:template match="tei:anchor[@type='event']">
-    <xsl:call-template name="lossless-span"><xsl:with-param name="class" select="'event event-end has-info-box'"/></xsl:call-template>
-  </xsl:template>
-
-  <!-- ============================================ -->
 
 </xsl:stylesheet>
