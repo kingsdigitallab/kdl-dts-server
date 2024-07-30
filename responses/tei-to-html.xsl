@@ -138,7 +138,7 @@
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'info-box'"/></xsl:call-template>
       <span class="banner">
         <xsl:choose>
-          <xsl:when test="../@resp='ednote'">Note </xsl:when>
+          <xsl:when test="../@resp='ednote'">Editorial Note </xsl:when>
           <xsl:when test="../@type='context'">Context </xsl:when>
           <xsl:when test="@type='event'">Event </xsl:when>
           <xsl:when test="../@type='oed'">Definition </xsl:when>
@@ -146,29 +146,8 @@
           <xsl:when test="@type='person'">Person </xsl:when>
           <xsl:when test="@type='place'">Place </xsl:when>
           <xsl:when test="@type='glyph'">Symbol </xsl:when>
-          <!-- <xsl:when test="../@type='geog'">Place </xsl:when> -->
           <xsl:otherwise>(?)</xsl:otherwise>
         </xsl:choose>
-        <!-- <xsl:choose>
-          <xsl:when test="../@type='oed_context'">Definition </xsl:when>
-          <xsl:when test="../@type='oed'">Definition </xsl:when>
-          <xsl:when test="../@type='context'">Context </xsl:when>
-          <xsl:when test="../@type='person'">Person </xsl:when>
-          <xsl:when test="../@type='geog'">Place </xsl:when>
-          <xsl:when test="../name() = 'g'">Symbol </xsl:when>
-          <xsl:when test="ends-with(../name(), 'persName')">Person </xsl:when>
-          <xsl:when test="ends-with(../name(), 'placeName')">Place </xsl:when>
-          <xsl:when test="ends-with(../name(), 'geogName')">Place </xsl:when>
-          <xsl:when test="ends-with(../name(), 'term')">Gloss </xsl:when>
-        </xsl:choose>
-        <xsl:choose>
-          <xsl:comment>LEAVE those empty cases in, they prevent the display of others down the list</xsl:comment>
-          <xsl:when test="ends-with(../name(), 'term')"></xsl:when>
-          <xsl:when test="../name() = 'g'"></xsl:when>
-          <xsl:when test="@type='entity'">(Entity)</xsl:when>
-          <xsl:when test="ends-with(../name(), 'anchor')">Note</xsl:when>
-          <xsl:otherwise>(?)</xsl:otherwise>
-        </xsl:choose> -->
       </span>
       <span class="body">
         <xsl:call-template name="process-children" />
@@ -200,7 +179,7 @@
   <xsl:template match="tei:anchor[@resp='ednote']" priority="4">
     <span>
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box is-note'"/></xsl:call-template>
-      <sup class="note-symbol">[<xsl:number count="//tei:anchor[@resp='ednote']" level="any" format="1"/>]</sup>
+      <sup class="note-symbol"><xsl:number count="//tei:anchor[@resp='ednote']" level="any" format="1"/></sup>
       <xsl:call-template name="process-children" />
     </span>
   </xsl:template>
