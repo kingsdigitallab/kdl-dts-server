@@ -205,8 +205,8 @@
       <xsl:apply-templates />
       <span>
         <xsl:choose>
-          <xsl:when test="name() = 'milestone'">⧔</xsl:when>
-          <xsl:when test="name() = 'anchor'">⧕</xsl:when>
+          <xsl:when test="name() = 'milestone'">【</xsl:when>
+          <xsl:when test="name() = 'anchor'">】</xsl:when>
         </xsl:choose>
       </span>
       <xsl:variable name="bookkey">
