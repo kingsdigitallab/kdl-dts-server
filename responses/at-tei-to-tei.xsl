@@ -11,7 +11,7 @@
   <xsl:key name="places" match="//tei:place" use="concat('place:', @xml:id)"/> 
 
   <xsl:variable name="events" select="document('events.xml')"/>
-  <xsl:key name="events" match="//tei:ptr" use="@target"/> 
+  <xsl:key name="events" match="//tei:ptr" use="tokenize(@target, '\s+')"/> 
 
   <xsl:variable name="glosses" select="document(tokenize('glossary.xml;glossary_book_one.xml;glossary_book_two.xml;glossary_book_three.xml', ';'))"/>
   <xsl:key name="glosses" match="//tei:item" use="concat('gloss:', @xml:id)"/> 
@@ -196,7 +196,7 @@
         <label>illness/medical</label>
         <linkGrp type="sgl">
           <ptr target="bookrem:ev10" type="book" subtype="bookrem"/>
-          <ptr target="book1:ev11" type="book" subtype="book1"/>
+          <ptr target="book1:ev11 book1:ev60" type="book" subtype="book1"/>
         </linkGrp>
       </event>
     -->
