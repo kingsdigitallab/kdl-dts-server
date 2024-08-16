@@ -139,10 +139,10 @@
       <span class="banner">
         <xsl:choose>
           <xsl:when test="../@resp='ednote'">Editorial Note </xsl:when>
-          <xsl:when test="../@type='context'">Context </xsl:when>
+          <xsl:when test="../@type='context'">Context </xsl:when> <!-- TODO: still used?  -->
           <xsl:when test="@type='event'">Event </xsl:when>
-          <xsl:when test="../@type='oed'">Definition </xsl:when>
-          <xsl:when test="@type='term'">Definition </xsl:when>
+          <xsl:when test="../@type='oed'">Gloss </xsl:when> <!-- TODO: still used?  -->
+          <xsl:when test="@type='term'">Gloss </xsl:when>
           <xsl:when test="@type='person'">Person </xsl:when>
           <xsl:when test="@type='place'">Place </xsl:when>
           <xsl:when test="@type='glyph'">Symbol </xsl:when>
