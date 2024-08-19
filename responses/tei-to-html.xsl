@@ -221,7 +221,7 @@
 
   <xsl:template match="tei:figure">
     <div class="tei-figure-wrapper">
-      <a href="#" class="btn-figure"><i class="fas fa-image"></i><span class="is-sr-only">Photograph of the manuscript page</span></a>
+      <a href="#" class="btn-figure"><i class="fas fa-book-open"></i><span class="is-sr-only">Photograph of the manuscript page</span></a>
       <figure class="tei-figure hidden" data-tei="figure">
         <xsl:apply-templates select="tei:head" />
         <!-- graphic can use .jpg or .tif format, we normalise into tif here -->
