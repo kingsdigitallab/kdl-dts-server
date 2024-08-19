@@ -187,6 +187,9 @@
   <xsl:template match="tei:quote">
     <span>
       <xsl:call-template name="lossless-attributes"><xsl:with-param name="class" select="'has-info-box is-quote'"/></xsl:call-template>
+      <xsl:if test="@type='direct'">
+        <span class="modern-only">‘</span>
+      </xsl:if>
       <xsl:call-template name="process-children" />
       <span class="info-box">
         <span class="banner">Biblical reference</span>
@@ -198,6 +201,9 @@
           </xsl:for-each>
         </span>
       </span>
+      <xsl:if test="@type='direct'">
+        <span class="modern-only">’</span>
+      </xsl:if>
     </span>
   </xsl:template>
 
