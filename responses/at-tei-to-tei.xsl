@@ -203,7 +203,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates />
-      <span>
+      <span type="event-mark">
         <xsl:choose>
           <xsl:when test="name() = 'milestone'">⊢</xsl:when>
           <xsl:when test="name() = 'anchor'">⊣</xsl:when>
