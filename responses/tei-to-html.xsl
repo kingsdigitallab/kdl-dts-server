@@ -268,6 +268,7 @@
           <xsl:when test="contains(@reason, 'deleted')">deleted</xsl:when>
           <xsl:when test="contains(@reason, 'obliterated')">obliterated</xsl:when>
           <xsl:when test="@reason='damage'">damaged</xsl:when>
+          <xsl:when test="name()='space' and @unit='word'">missing</xsl:when>
           <xsl:when test="name()='space'">blank</xsl:when>
           <xsl:otherwise>missing</xsl:otherwise>
         </xsl:choose>
