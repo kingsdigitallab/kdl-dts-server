@@ -124,6 +124,13 @@
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
+  <xsl:template match="tei:l">
+    <span>
+      <xsl:call-template name="lossless-attributes-and-children" />
+      <xsl:if test="(@n mod 5) = 0"><span class="line-number"><xsl:value-of select="@n"/></span></xsl:if>
+    </span>
+  </xsl:template>
+
   <!-- <xsl:template match="*[@rend='superscript']">
     <sup><xsl:call-template name="lossless-attributes-and-children" /></sup>
   </xsl:template> -->
