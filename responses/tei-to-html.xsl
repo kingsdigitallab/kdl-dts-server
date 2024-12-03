@@ -288,7 +288,7 @@
       </xsl:if>
       <xsl:if test="@unit='char'">
         <span class="missing-chars" title="illigible">
-          <xsl:for-each select="1 to $quantity_integer">?</xsl:for-each>
+          <xsl:for-each select="1 to $quantity_integer">x</xsl:for-each>
         </span>
       </xsl:if>
     </span>
