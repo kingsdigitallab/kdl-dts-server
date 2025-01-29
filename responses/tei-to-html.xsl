@@ -119,6 +119,10 @@
     <del><xsl:call-template name="lossless-attributes-and-children" /></del>
   </xsl:template>
 
+  <xsl:template match="tei:ex">
+    <span><xsl:call-template name="lossless-attributes"/><span class="semidip-only">{</span><xsl:call-template name="process-children" /><span class="semidip-only">}</span></span>
+  </xsl:template>
+
   <xsl:template match="tei:measure">
     <span class="modern-only">£<xsl:if test="@quantity"><xsl:value-of select="format-number(@quantity, '#,###')"/></xsl:if></span>
     <xsl:call-template name="lossless-span"/>
