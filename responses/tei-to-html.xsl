@@ -128,12 +128,35 @@
     <xsl:call-template name="lossless-span"/>
   </xsl:template>
 
-  <xsl:template match="tei:l">
+  <!-- Wrapping consecutive <l> into a <div> -->
+
+  <!-- Template to handle the first tei:l in a consecutive sequence -->
+  <xsl:template match="tei:l[not(preceding-sibling::*[1][self::tei:l])]">
+    <xsl:for-each-group select=". | following-sibling::*" group-adjacent="boolean(self::tei:l)">
+      <xsl:if test="current-grouping-key()">
+        <xsl:if test="position() = 1">
+          <span class="list-tei-l">
+            <xsl:for-each select="current-group()">
+              <xsl:call-template name="tei-l"/>
+            </xsl:for-each>
+          </span>
+        </xsl:if>
+      </xsl:if>
+    </xsl:for-each-group>
+  </xsl:template>
+
+  <!-- Template to ignore subsequent tei:l elements in the same consecutive sequence -->
+  <xsl:template match="tei:l[preceding-sibling::*[1][self::tei:l]]">
+  </xsl:template>
+
+  <xsl:template name="tei-l">
     <span>
       <xsl:call-template name="lossless-attributes-and-children" />
       <xsl:if test="(@n mod 5) = 0"><span class="line-number"><xsl:value-of select="@n"/></span></xsl:if>
     </span>
   </xsl:template>
+
+  <!-- ======================================== -->
 
   <!-- <xsl:template match="*[@rend='superscript']">
     <sup><xsl:call-template name="lossless-attributes-and-children" /></sup>
