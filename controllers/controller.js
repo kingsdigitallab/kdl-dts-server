@@ -411,7 +411,17 @@ async function getXMLFromPageNumber(documentId, ref) {
           if (parent == apb) continue;
           // ignore common ancestors
           if (0 && edgesAncestors[1 - i].indexOf(parent) > -1) continue;
-          let parentStr = `<${closing}${parent.nodeName}>`;
+
+          let attributes = ''
+          if (!closing) {
+            for (let attIndex = 0; attIndex < parent.attributes.length; attIndex++) {
+              let att = parent.attributes[attIndex]
+              let attStr = ` ${att.name}="${att.value}"`
+              attributes += attStr;
+            }
+          }
+
+          let parentStr = `<${closing}${parent.nodeName}${attributes}>`;
           ancestorsStr += parentStr;
         }
         // console.log(`  ${ancestorsStr}`)
