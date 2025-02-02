@@ -97,9 +97,9 @@
   <xsl:template match="tei:p|tei:div">
     <xsl:copy>
       <xsl:call-template name="lossless-attributes"/>
-      <xsl:if test="contains(@rend, 'pre(rule)')"><hr/></xsl:if>
+      <xsl:if test="contains(@rend, 'pre(rule)')"><hr class="rule rule-before"/></xsl:if>
       <xsl:call-template name="process-children" />
-      <xsl:if test="contains(@rend, 'post(rule)')"><hr/></xsl:if>
+      <xsl:if test="contains(@rend, 'post(rule)')"><hr class="rule rule-after"/></xsl:if>
     </xsl:copy>
   </xsl:template>
 
