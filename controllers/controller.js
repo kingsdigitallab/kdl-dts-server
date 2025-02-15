@@ -403,22 +403,33 @@ async function getXMLFromPageNumber(documentId, ref) {
       // edgesAncestors => edgesAncestorsStr.
       let i = 0;
       let closing = "";
+      // any element containing that span closes on a following page
+      let beforeFirstClosingTag = '<span type="closes-after-this-page"></span>'
       for (let apb of [pb, pbNext]) {
         // console.log(`PB = ${apb.getAttribute("n")}`)
         let ancestorsStr = "";
         if (!i) edgesAncestors[i].reverse();
         for (let parent of edgesAncestors[i]) {
           if (parent == apb) continue;
-          // ignore common ancestors
-          if (0 && edgesAncestors[1 - i].indexOf(parent) > -1) continue;
+          
+          // DISABLED - 2023 - 5c95489450bcce2460640fa25087618c90307d25
+          // (ignore common ancestors)
+          // if (edgesAncestors[1 - i].indexOf(parent) > -1) continue;
 
           let attributes = ''
           if (!closing) {
+            attributes += ' opens-before-this-page="1"'
+            // if (edgesAncestors[1].indexOf(parent) > -1) {
+            //   attributes += ' closes-on-next-page="1"'
+            // }
             for (let attIndex = 0; attIndex < parent.attributes.length; attIndex++) {
               let att = parent.attributes[attIndex]
               let attStr = ` ${att.name}="${att.value}"`
               attributes += attStr;
             }
+          } else {
+            ancestorsStr += beforeFirstClosingTag
+            beforeFirstClosingTag = ''
           }
 
           let parentStr = `<${closing}${parent.nodeName}${attributes}>`;

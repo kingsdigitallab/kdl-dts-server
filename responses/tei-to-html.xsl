@@ -90,17 +90,21 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="tei:TEI|tei:front|tei:titlePage">
+  <xsl:template match="tei:TEI|tei:front|tei:titlePage|tei:body">
      <xsl:call-template name="lossless-div"/>
   </xsl:template>
 
   <xsl:template match="tei:p|tei:div">
     <xsl:copy>
       <xsl:call-template name="lossless-attributes"/>
-      <xsl:if test="contains(@rend, 'pre(rule)')"><hr class="rule rule-before"/></xsl:if>
+      <xsl:if test="contains(@rend, 'pre(rule)') and not(@opens-before-this-page)"><hr class="rule rule-before"/></xsl:if>
       <xsl:call-template name="process-children" />
-      <xsl:if test="contains(@rend, 'post(rule)')"><hr class="rule rule-after"/></xsl:if>
+      <xsl:if test="contains(@rend, 'post(rule)') and not(.//tei:span[@type='closes-after-this-page'])"><hr class="rule rule-after"/></xsl:if>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="tei:span[@type='closes-after-this-page']">
+    <xsl:comment> closes-after-this-page </xsl:comment>
   </xsl:template>
 
   <xsl:template match="tei:docTitle">
