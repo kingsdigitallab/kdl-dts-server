@@ -90,7 +90,7 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="tei:TEI|tei:front|tei:titlePage|tei:body">
+  <xsl:template match="tei:TEI|tei:front|tei:back|tei:titlePage|tei:body">
      <xsl:call-template name="lossless-div"/>
   </xsl:template>
 
